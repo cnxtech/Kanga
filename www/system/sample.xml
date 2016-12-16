@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library type="base" version="0.8" name="kanga-base-library">
+    <processor category="filter" node_type="normal" storm_node_type="bolt">
+        <name>where_clause</name>
+        <class_name>com.sec.kanga.bolt.filter.WhereClauseBolt</class_name>
+        <field type="text" default="" mandatory="true">
+	        <field_name>output</field_name>
+            <placeholder>Output</placeholder>
+        </field>
+        <field type="textarea" default="" mandatory="true">
+            <field_name>condition</field_name>
+            <placeholder>Give condition based on which tuples are to be filtered</placeholder>
+        </field>
+    </processor>
+
+    <processor category="input_streaming" node_type="source" storm_node_type="spout">
+        <name>passthrough_from_kafka</name>
+        <class_name>com.sec.kanga.spout.PassthroughFromKafka</class_name>
+        <field type="dropdown" default="REALTIME" mandatory="true">
+            <field_name>scenario</field_name>
+            <placeholder>REALTIME or HISTORIC</placeholder>
+            <options>
+                <option>REALTIME</option>
+                <option>HISTORIC</option>
+            </options>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>spout_id</field_name>
+            <placeholder>spout_id</placeholder>
+        </field>
+        <field type="dropdown" default="DEFAULT" mandatory="true">
+            <field_name>filter</field_name>
+            <placeholder>DEFAULT or GROK</placeholder>
+            <options>
+                <option>DEFAULT</option>
+                <option>GROK</option>
+			</options>
+        </field>
+        <field type="text" default="" mandatory="false">
+            <field_name>grok_field_list</field_name>
+            <placeholder>grok_field_list</placeholder>
+        </field>
+        <field type="text" default="" mandatory="false">
+            <field_name>grok_pattern_file</field_name>
+            <placeholder>grok pattern file located in /cepdev/..</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>topic_name</field_name>
+            <placeholder>you can get topic_name from Knowledge > Data Summary > Kafka Topics</placeholder>
+        </field>
+        <field type="text" default="10.251.21.176:2181" mandatory="true">
+            <field_name>zookeeper</field_name>
+            <placeholder>host:port,host:port,host:port</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>output_name</placeholder>
+        </field>
+    </processor>
+	
+    <processor category="output_streaming" node_type="sink" storm_node_type="bolt">
+        <name>save_to_file</name>
+        <class_name>com.sec.kanga.bolt.sink.SaveToFile</class_name>
+        <field type="text" default="" mandatory="true">
+	        <field_name>output_file_path</field_name>
+            <placeholder>File path. e.g. c:\cepdev\tmp\output.txt</placeholder>
+        </field>
+    </processor>
+	
+	<!--
+    <processor category="aggregation" tag="frequently-used" type="normal" node="bolt">
+
+        <name>stdev</name>
+
+        <class_name>com.sec.kanga.bolt.aggregate.StdevBolt</class_name>
+
+        <field type="text" default="" mandatory="true">
+
+            <field_name>output</field_name>
+
+            <shortdescription>output name after processing</shortdescription>
+
+        </field>
+
+        <field type="text" default="" mandatory="true">
+
+            <field_name>input_field_name</field_name>
+
+            <shortdescription>Field to be standard-deviated</shortdescription>
+
+        </field>
+
+        <field type="dropdown" default="BATCH" mandatory="true">
+
+            <field_name>window_type</field_name>
+
+            <shortdescription>type of window for aggregation</shortdescription>
+
+            <options>
+
+                <option>SLIDING</option>
+
+                <option>BATCH</option>
+
+            </options>
+
+        </field>
+
+        <field type="dropdown" default="TICK" mandatory="true">
+
+            <field_name>bucket_unit</field_name>
+
+            <shortdescription>Unit of bucket to aggregate a group of events</shortdescription>
+
+            <options>
+
+                <option>TICK</option>
+
+                <option>SECOND</option>
+
+                <option>MINUTE</option>
+
+                <option>HOUR</option>
+
+            </options>
+
+        </field>
+
+        <field type="text" default="" mandatory="true">
+
+            <field_name>bucket_size</field_name>
+
+            <shortdescription>Eg. 5 (in TICK or SECOND depending on selected bucket unit)</shortdescription>
+
+        </field>
+
+        <field type="text" default="" mandatory="false">
+
+            <field_name>groupby_fields</field_name>
+
+            <shortdescription>Eg. "department, gender" (Group by department and gender)</shortdescription>
+
+        </field>
+
+    </processor>
+	-->
+
+</library>

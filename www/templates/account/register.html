@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Register</title>
+	{% include "uiapp/core-styles.html" %}
+    <!--external css-->
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+
+    <style>
+        .chosen-container {
+            width: 300px !important;
+            text-align: left;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+                <p class="logo-name">Kanga</p>
+                <img src="{% static 'uiapp\img\noun_4742_cc.svg' %}">
+            </div>
+            <h3>Register to Kanga</h3>
+            <p>Create account to see it in action.</p>
+            <form class="m-t" role="form" action="" method="post">{% csrf_token %}
+
+									{% if form.errors %}
+									{% for field in form %}
+										{% for error in field.errors %}
+											<div>
+												<strong><font style='color:red;font-size: 12px'>{{ error|escape }}</font></strong>
+											</div>
+										{% endfor %}
+									{% endfor %}
+									{% for error in form.non_field_errors %}
+										<div class="alert alert-error">
+											<strong><font style='color:red;font-size: 12px'>{{ error|escape }}</font></strong>
+										</div>
+									{% endfor %}
+								{% endif %}
+
+                <div class="form-group">
+                    <input type="text" id="username" name="username" class="form-control" placeholder="ID" required="true"  value="{{form.username.value}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="first_name" class="form-control" placeholder="First Name" required="true" value="{{form.first_name.value}}">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" required="true" value="{{form.last_name.value}}">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email_address" name="email_address" class="form-control" placeholder="Email" required="true"  value="{{form.email_address.value}}">
+                </div>
+                <div class="form-group">
+                    <select name="job_title" class="chosen-select form-control">
+                        <option value="">Job Title...</option>
+                        {% for job_title in job_titles %}
+                        <option value="{{job_title}}" {% if form.job_title.value == job_title.title %} selected {%endif%}>{{job_title.title}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="password"  placeholder="Password" required="true"  value="{{form.password.value}}">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password"  placeholder="Confirm Password" required="true"  value="{{form.confirm_password.value}}">
+                </div>
+
+                <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
+
+                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <a class="btn btn-sm btn-primary btn-block" href="/account/login">Login</a>
+            </form>
+            <p class="m-t"> <small>Kanga, Samsung Electronics &copy; 2014-2016</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+    <script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+    <script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+    <script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+    <script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'uiapp/externals//metisMenu/metisMenu.js' %}"></script>
+    <script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+    <!-- Chosen -->
+    <script src="{% static 'uiapp/externals/chosen/chosen.jquery.js' %}"></script>
+
+    <script>
+
+    $(document).ready(function () {
+        $("#username").change(function(event){
+            $("#email_address").attr("value",$("#username").val()+"@samsung.com");
+        });
+        var config = {
+            '.chosen-select': {},
+            '.chosen-select-deselect': {allow_single_deselect: true},
+            '.chosen-select-no-single': {disable_search_threshold: 10},
+            '.chosen-select-no-results': {no_results_text: 'Oops, nothing found!'},
+            '.chosen-select-width': {width: "300px"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    });
+
+    </script>
+</body>
+
+</html>

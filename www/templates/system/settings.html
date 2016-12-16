@@ -1,0 +1,248 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Service Settings</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/codemirror/codemirror.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/codemirror/ambiance.css' %}" rel="stylesheet">
+
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+
+</head>
+
+<body class="pace-done ">
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-cogs"></i> Service Settings</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'system:index' %}">System</a></li>
+                    <li class="active"><strong>Service Settings</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row wrapper wrapper-content">
+            <div class="col-lg-4">
+                <div class="ibox-title">
+                    <h2>Node List</h2>
+                </div>
+                <div class="ibox-content">
+                    {% if nodes %}
+                    <table id="node-list" class="table  table-hover table-striped " width="100%">
+                        <thead>
+                        <tr>
+                            <th>IP</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for node in nodes %}
+                            <tr><td><a href="{% url 'system:settings' %}?ip={{node.ip}}">{{node.ip}}</a></td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <pre>There is no registered IP.</pre>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- config file list -->
+            <div id="config-file-list" class="col-lg-8 animated fadeInRight">
+                <div class="ibox-title">
+                    <h2>Configuration file list
+                        <span style="float: right;"><i class="fa fa-heartbeat"></i> {{IP}}</span>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <table id="config_file_list" class="table  table-hover" >
+                        <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Config File</th>
+                            <th>Updated</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+     </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+ <!-- CodeMirror -->
+<script src="{% static 'uiapp/js/plugins/codemirror/codemirror.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/codemirror/mode/javascript/javascript.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/codemirror/mode/properties/properties.js' %}"></script>
+
+<!-- Bootbox -->
+<script src="{% static 'uiapp/externals/bootbox/bootbox.min.js' %}"></script>
+
+<!-- ace code editor -->
+<script src="{% static 'uiapp/externals/ace/src-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'uiapp/externals/ace/src-noconflict/ext-language_tools.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'uiapp/externals/ace/src-noconflict/ext-keybinding_menu.js' %}" type="text/javascript" charset="utf-8"></script>
+
+<script src="{% static 'uiapp/externals/js-cookie/js.cookie.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+var HOST = 'http://{{ IP }}';
+$(document).ready(function() {
+
+    /*datatable initialization*/
+    $('#node-list').dataTable({
+        language: {"search": "Search: "},
+    });
+    refresh_config_list_table();
+
+});
+
+function handleAjaxError( xhr, textStatus, error ) {
+    if ( textStatus === 'timeout' ) {
+        toastr.error( 'The server took too long to send the data.' );
+    }
+    else {
+        toastr.error( 'An error occurred on the server. Please try again in a minute.' );
+    }
+}
+function refresh_config_list_table(){
+    var url = HOST + '{% url 'system:api-settings-config-list' %}';
+    $('#config_file_list').dataTable({
+        "ajax": {
+            "url": url,
+            "error": handleAjaxError
+        },
+        "columns": [
+            {"data": "service_name"},
+            {"data": "config_file"},
+            {"data": "updated"},
+        ],
+        "order": [[ 1, "asc" ]],
+        language: {"search": "Search: "},
+        bDestroy: true
+    });
+}
+function view_file_content(ajax_url){
+    $.ajax({
+        async: true,
+        url: ajax_url,
+        success: function(json_response)
+        {
+            open_bootbox(ajax_url, json_response.content)
+        }
+    });
+}
+function open_bootbox(ajax_url, content){
+    bootbox.setDefaults("animate", false);
+    var editor;
+    var d = bootbox.dialog({
+        size: "large",
+        title: "View configuration",
+        message: '<div  style="height:400px;" ><div id="editor"></div></div>',
+        buttons: {
+            success: {
+                label: "Save",
+                className: "btn-success",
+                callback: function () {
+                    new_content = editor.getValue();
+                    ajax_url = ajax_url.replace("command=get","command=set");
+                    save_content(ajax_url, new_content);
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                className: "btn-cancel"
+            }
+        }
+    });
+    editor = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    editor.getSession().setMode("ace/mode/properties");
+    editor.$blockScrolling = Infinity
+    editor.setValue(content);
+    editor.gotoLine(1);
+    editor.setOptions({
+        enableBasicAutocompletion: true
+    });
+    editor.focus();
+}
+function save_content(ajax_url, new_content){
+    var csrftoken = Cookies.get('csrftoken');
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: ajax_url,
+        data:{
+            'command': 'set',
+            'content': new_content
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function(json_response)
+        {
+            if (json_response.state=="success"){
+                toastr.success('configuration is saved successfully', 'Service Settings')
+            } else {
+                toastr.error('configuration is not saved. reason is '+json_response.error, 'Service Settings');
+            }
+        }
+    });
+
+}
+</script>
+</body>
+</html>

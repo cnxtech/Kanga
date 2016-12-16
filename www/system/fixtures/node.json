@@ -1,0 +1,10 @@
+[
+{
+    "fields": {
+        "cluster": "CNC Log Analysis Cluster",
+        "hostname": "Kanga"
+    },
+    "model": "system.node",
+    "pk": "localhost"
+}
+]

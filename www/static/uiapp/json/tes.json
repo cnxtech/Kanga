@@ -1,0 +1,38 @@
+[
+  {
+    "name":"fields",
+    "type":"dropdown",
+    "value":"hallo",
+    "options":[
+      {
+        "text": "where",
+        "value": "01"
+      },
+      {
+        "text": "from",
+        "value": "02"
+      }
+
+    ]
+  },
+  {
+    "name":"source",
+    "type":"text",
+    "value":"hallo"
+  },
+  {
+    "name":"enabled",
+    "type":"check",
+    "value":"true"
+  },
+  {
+    "name":"from time",
+    "type":"datetime",
+    "value":"03/04/2015"
+  },
+  {
+    "name":"to time",
+    "type":"datetime",
+    "value":"10/04/2015"
+  }
+]

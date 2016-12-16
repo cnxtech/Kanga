@@ -1,0 +1,167 @@
+[
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "sfas",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "sfs"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 1
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "www",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "www"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 2
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "amit",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "amit"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 3
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "aaa",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "Aa"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 4
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "1212",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "12121"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 5
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "sfsd",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "sfdsf"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 6
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "fgfgf",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "fdgf"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 7
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "111",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "111"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 8
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "wewe",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "wwew"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 9
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "rrrr",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "rrrr"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 10
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "rrrr"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 11
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "rrrr"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 12
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "sds",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "sdsds"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 13
+},
+{
+    "fields": {
+        "owner": "admin",
+        "query_id": "1",
+        "description": "dfd",
+        "parameters": "{\"chart_type\": \"column\", \"x_field\": \"\" ,\"y_field\": \"\" }",
+        "report_name": "dfdfd"
+    },
+    "model": "workspace.reportdetail",
+    "pk": 14
+},
+{
+    "fields": {
+        "owner": "AnonymousUser",
+        "query_id": "1",
+        "description": "",
+        "parameters": "",
+        "report_name": ""
+    },
+    "model": "workspace.reportdetail",
+    "pk": 15
+}
+]

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% url 'workspace' as home %}
+
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Streaming Query</title>
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/font-flaticon/flaticon.css' %}" rel="stylesheet">
+
+    <!--external css-->
+    <link href="{% static 'uiapp/externals/jsplumb/css/jsplumb.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <!--<link href="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.css' %}" rel="stylesheet">-->
+    <link href="{% static 'uiapp/externals/bootstrap-datetimepicker/bootstrap-datetimepicker.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+    <!-- Data Tables -->
+    <link href="{% static 'uiapp/css/plugins/dataTables/select.dataTables.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/dataTables/jquery.dataTables.css' %}" rel="stylesheet">
+
+    <!-- icheck -->
+    <link href="{% static 'uiapp/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+
+    <!-- Chart Type icons -->
+    <link href="{% static 'uiapp/font-kanga/css/font-kanga.css' %}" rel="stylesheet">
+
+    <!-- Spectrum -->
+    <link href="{% static 'uiapp/externals/spectrum/spectrum.css' %}" rel="stylesheet"/>
+
+    <!--mine-->
+    <link href="{% static 'uiapp/css/own.jsplumb.css' %}" rel="stylesheet">
+
+    <style>
+        .launch_devicelist_modal > .modal-dialog {
+            width:70% !important;
+        }
+    </style>
+
+</head>
+
+<body class="">
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row white-bg">
+            <div class="col-lg-12">
+                <h3><i class="fa fa-bolt"></i> Build Your Own Streaming Query
+                    <a id='builder-query-name' class="builder-query-name" href="#">New Query</a> <a id='builder-query-description' class="builder-query-description" href="#">This is new query</a>
+                </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="editor_main_panel" class="col-lg-12">
+                <div id="top-page" class="row  border-bottom white-bg dashboard-header" style="height: 400px;">
+                    <div class="workflow-canvas canvas_window flowchart-canvas" id="flowchart-canvas" >
+                            <!-- CANVAS -->
+                    </div>
+                </div>
+
+                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">Properties</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                    <form id="target-argument-form" method="get" class="form-horizontal">
+                                        <script type="text/html" id="book-template">
+
+                                            <!-- DROPDOWN -->
+                                            <div data-bind="if: isDropdown()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <select data-bind="options: options, optionsText: 'text', optionsValue: 'value', optionsCaption: 'Choose...', value: value"  data-placeholder="Choose a Country..." class="chosen-select" style="width:350px;" tabindex="2">
+                                                            <option value="">Select</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1"><p data-bind="html: is_mandatory">-</p></div>
+                                            </div>
+
+                                            <!-- EDITTEXTAREA -->
+                                            <div data-bind="if: isEditTextArea()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-9" ><div id="aceEditor" style="height:400px;" class="form-control"></div></div>
+                                                <div class="col-sm-1"><p data-bind="html: is_mandatory">-</p></div>
+                                                <!--div class="col-sm-10"><input type="text" data-bind="value: value" class="form-control"></div-->
+                                            </div>
+
+                                            <!-- EDITTEXT -->
+                                            <div data-bind="if: isEditText()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-9"><input type="text" data-bind="value: value, attr: { placeholder: placeholder }" class="form-control"></div>
+                                                <div class="col-sm-1"><p data-bind="html: is_mandatory">-</p></div>
+                                            </div>
+
+                                            <!-- DATE TIME PICKER -->
+                                            <div data-bind="if: isDatetime()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-10">
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" data-bind="value: value" class="form-control" >
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- CHECK BOX -->
+                                            <div data-bind="if: isCheckBox()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-10">
+                                                    <div> <input type="checkbox" class="i-checks" data-bind="checked: value">  </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- UPLOADER -->
+                                            <div data-bind="if: isUploader()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-10"><input type="file" class="form-control" data-bind="value: value"></div>
+                                            </div>
+
+                                            <!-- SPINNER -->
+                                            <div data-bind="if: isSpinner()" class="form-group"><label class="col-sm-2 control-label" data-bind="html: name">-</label>
+                                                <div class="col-sm-10">
+                                                    <div data-bind="attr: { id: name }"></div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                        </script>
+                                        <div data-bind="template: { name: 'book-template', foreach: tasks, afterRender: postRenderHandler }"></div>
+                                    </form>
+                                <p style="text-align:right"><font color="red">(*)</font> is a mandatory field</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                                <button id="btn-modal-save" type="button" data-bind="click: save" class="btn btn-primary">Save changes</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row  border-bottom white-bg dashboard-header ui-resizable-se" style="margin-top: 5px; height:3000px;">
+                    <div class="col-sm-12" id="myLaunchButton">
+                        <div class="panel-heading">
+                            <div class="panel-title m-b-md">
+                                <button id="validate-workflow" type="button" class="btn btn-warning btn-xs" data-bind="text:validateButton"></button>
+                                <button id="launch-workflow" type="button" class="btn btn-primary btn-xs" data-bind="text:launchButton"></button>
+                                <button id="save-workflow" type="button" class="btn btn-success btn-xs">Save as query</button>
+                                or create a <a href="{% url 'workspace:streaming-query' %}"><button id="new-workflow" type="button" class="btn btn-info btn-xs">New query</button></a>
+                                <span class="btn btn-info btn-xs btn-file" id="load-from-file">Load from file <input type="file"></span>
+                                <span style="float: right;">
+                                    <button id="kill-workflow" type="button" class="btn btn-danger btn-xs">Kill Realtime Query</button>
+                                    <button id="expand-editor" type="button" class="btn btn-info btn-xs"><i class="fa fa-question"></i> Show Help</button>
+                                </span>
+                            </div>
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-history fa-lg"></i> Recent Queries</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-align-left fa-lg"></i> Kanga-generated Code</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-superscript fa-lg"></i> Explain</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="row">
+                                    <div id="command-list" class="col-lg-12 animated fadeInRight"><div class="ibox-content">
+                                        <table id="dataTables-query-commands" class="table  table-hover table-striped " width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>ETL Name</th>
+                                                <th>Description</th>
+                                                <th>Running</th>
+                                                <th>Last Check</th>
+                                                <th>Owner</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div></div>
+                                </div>
+                            </div>
+
+                            <div id="tab-2" class="tab-pane">
+                                <div class='animated fadeInRight'><pre>There are currently no logs to visualize.</pre></div>
+                            </div>
+
+                            <div id="tab-3" class="tab-pane">
+                                <div class='animated fadeInRight'><pre>There are currently no logs to visualize.</pre></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
+            <div id="help_panel" class="col-lg-3">
+                <h2>Help document will be displayed here</h2>
+            </div>
+        </div>
+
+        {% csrf_token %}
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Mainly scripts -->
+<script>
+    var HOST = "{{ BASE_URL }}";
+</script>
+<script src="{% static 'uiapp/js/constants.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/metisMenu/metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/externals/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Flot -->
+<script src="{% static 'uiapp/externals/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'uiapp/externals/flot/jquery.flot.tooltip.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/flot/jquery.flot.spline.js' %}"></script>
+<script src="{% static 'uiapp/externals/flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'uiapp/externals/flot/jquery.flot.pie.js' %}"></script>
+<!-- Peity -->
+<script src="{% static 'uiapp/externals/peity/jquery.peity.min.js' %}"></script>
+<script src="{% static 'uiapp/js/String.js' %}"></script>
+<!-- jQuery UI -->
+<script src="{% static 'uiapp/externals/jquery-ui/jquery-ui.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/externals/sbadmin2/sb-admin-2.js' %}"></script>
+<script src="{% static 'uiapp/externals/pace/pace.min.js' %}"></script>
+
+<!-- GITTER -->
+<script src="{% static 'uiapp/externals/gritter/jquery.gritter.min.js' %}"></script>
+<!-- Sparkline -->
+<script src="{% static 'uiapp/externals/sparkline/jquery.sparkline.min.js' %}"></script>
+
+<!-- ChartJS-->
+<script src="{% static 'uiapp/externals/chartJs/Chart.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+<!-- Chosen -->
+<script src="{% static 'uiapp/externals/chosen/chosen.jquery.js' %}"></script>
+<!-- NouSlider -->
+<!--<script src="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.js' %}"></script>-->
+<!-- Data picker -->
+<script src="{% static 'uiapp/externals/bootstrap-datetimepicker/moment-with-locales.js' %}"></script>
+<script src="{% static 'uiapp/externals/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+<!-- iCheck -->
+<script src="{% static 'uiapp/externals/iCheck/icheck.min.js' %}"></script>
+<!-- IonRangeSlider -->
+<script src="{% static 'uiapp/externals/ionRangeSlider/js/ion.rangeSlider.min.js' %}"></script>
+<!-- Knocout -->
+<script src="{% static 'uiapp/externals/knockout/knockout-3.3.0.js' %}"></script>
+<script src="{% static 'uiapp/externals/knockout/knockout.mapping.js' %}"></script>
+<!-- Bootbox -->
+<script src="{% static 'uiapp/externals/bootbox/bootbox.min.js' %}"></script>
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.select.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Kanga Script -->
+<script>
+var validate_url = "{% url 'workspace:subprocess-realtimequery-validate' 0 %}";
+validate_url = validate_url.substring(0,validate_url.length-3);
+
+var launch_url = "{% url 'workspace:subprocess-realtimequery-launch' 0 %}";
+launch_url = launch_url.substring(0,launch_url.length-3);
+
+var topology_kill_url = "{% url 'monitor:api-kill-topology' 0 %}";
+topology_kill_url = topology_kill_url.substring(0,topology_kill_url.length-3);
+
+var topology_stat_url = "{% url 'monitor:api-topology-stat' 0 %}";
+topology_stat_url = topology_stat_url.substring(0,topology_stat_url.length-3);
+var help_doc_url = "{% url 'help:uiapp-help-doc' %}";
+</script>
+<script src="{% static 'uiapp/js/own.scripts.js' %}"></script>
+<script src="{% static 'uiapp/js/workflow/adddata/component-provider.js' %}"></script>
+<script src="{% static 'uiapp/js/workflow/adddata/data-binder.js' %}"></script>
+<script src="{% static 'uiapp/js/workflow/adddata/application.js' %}"></script>
+<script src="{% static 'uiapp/js/workflow/adddata/run-cep.js' %}"></script>
+<script src="{% static 'uiapp/js/workflow/adddata/visualize-data.js' %}"></script>
+
+<!-- Spectrum -->
+<script src="{% static 'uiapp/externals/spectrum/spectrum.js' %}"></script>
+<!-- chartjs -->
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+<script src="{% static 'uiapp/externals/underscore/underscore-1.5.1.min.js' %}"></script>
+
+
+<!-- nestable -->
+<script src="{% static 'uiapp/js/plugins/nestable/jquery.nestable.js' %}"></script>
+
+
+<script>
+var help_hidden = true;
+var source_id = "all";
+var queryTable;
+var connect_device_url = "{% url 'system:get-connected-device-list' %}";
+
+$(document).ready(function() {
+
+    $("#help_panel").hide();
+
+    drawRecentQueryTable(source_id);
+
+    $("#validate-workflow").click(function(){
+        mvn_validate();
+    });
+
+    $("#launch-workflow").click(function(){
+        var name = $("#builder-query-name");
+        var queryID =  name.attr("data_id");
+        if(queryID != '0'){
+            mvn_launch();
+        }
+        else{
+            toastr.error('Please create new query or load a query from the table of recent queries','Streaming query is not loaded yet');
+        }
+    });
+
+
+    $("#kill-workflow").click(function(){
+        var name = $("#builder-query-name");
+        var queryID =  name.attr("data_id");
+        if(queryID > 0 ){
+            var current_topology_kill_url = topology_kill_url+"/"+queryID+"/";
+            $.ajax({
+                url: current_topology_kill_url,
+                timeout: 10000,
+                success: function(json) {
+                    if (!("data" in json)==0) {
+                        toastr.success(json['data'],'');
+                    }
+                    else if (!("error" in json)==0) {
+                        toastr.error(json['error'],'');
+                    }else{
+                        toastr.error('There is server communication error. Please try a few seconds later','');
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function(jqXHR) {
+                    console.log(jqXHR);
+                },
+                dataType:"json",
+            });
+
+        }else{
+            toastr.error('Please create new query or load a query from the table of recent queries','Streaming query is not loaded yet');
+        }
+    });
+
+    $("#expand-editor").click(function(){
+        expand_editor();
+    });
+});
+
+
+function expand_editor(){
+    if ( help_hidden==false) {
+        $("#help_panel").hide();
+        help_hidden = true;
+        $("#editor_main_panel").attr("class","col-sm-12");
+        $("#expand-editor").html("<i class='fa fa-question'></i> Show Help");
+    } else {
+        $("#help_panel").show();
+        help_hidden = false;
+        $("#editor_main_panel").attr("class","col-sm-9");
+        $("#expand-editor").html("<i class='fa fa-expand'></i> Expand");
+    }
+}
+
+
+function drawRecentQueryTable(source_id){
+    /*datatable initialization*/
+    $('#dataTables-query-commands').dataTable({
+        "ajax": {
+            "url": '{% url 'knowledge:field_extractions' %}group/'+source_id+'/',
+            "error": handleAjaxError
+        },
+        "columns": [
+            {"data": "id"},
+            {"data": "name"},
+            {"data": "description"},
+            {"data": "running"},
+            {"data": "last_running"},
+            {"data": "user_id"},
+            {"data": "actions"},
+        ],
+        processing: true,
+        language: {
+            "search": "Search: ",
+            "loadingRecords": "",
+            "processing": "<span><i class='fa fa-spinner fa-pulse fa-4x'></i></span>"
+        },
+        "order": [[ 0, "desc" ]],
+        bDestroy: true,
+    });
+}
+
+function ajax_delete_topology(queryID){
+    $.ajax({
+        type: "POST",
+        url: "{% url 'knowledge:query_delete' %}",
+        timeout : 30000,
+        data: {
+            id : queryID
+        },
+        success: function (json) {
+            var success_msg = 'Kanga successfully delete topology';
+            var error_msg = 'Topology delete failed';
+
+            if (json['status']=="ok") {
+                if(location.search.split("=")[1] == queryID){
+                    window.location.href = "{% url 'workspace:streaming-query' %}";
+                }
+                toastr.success(json['message'], 'Success');
+            }
+
+            else {
+                toastr.error(json['message'], 'Failed');
+            }
+            drawRecentQueryTable(source_id);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        }
+    });
+}
+
+
+
+function bootbox_launch(queryID) {
+    bootbox.setDefaults("animate", true);
+    bootbox.dialog({
+        title: "Launch topology" + queryID,
+        message:
+            '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<div class="ibox-title">'+
+            '<h4>Choose devices for launch topology </h4>' +
+            '</div>' +
+            '<div class="ibox-content">' +
+            '<table id="device_list" class="table  table-hover table-striped " width="100%">'+
+            '<thead>' +
+            '<tr>'+
+            '<th><input type="checkbox" id="selectAll" name="selectAll"></th>'+
+            '<th>IP</th>'+
+            '<th>Device Type</th>' +
+            '<th>Hostname</th>' +
+            '</tr>'+
+            '</thead>' +
+            '<tbody></tbody>' +
+            '</table>'+
+            '</div> </div> </div>' +
+            '<script src="{% static "uiapp/js/workflow/adddata/device_list.js" %}"><\/script>',
+        buttons: {
+            success: {
+                label: "Launch",
+                className: "btn-success",
+                callback: function () {
+                    var select_device_info = table.rows( { selected: true } ).data()
+                    if(select_device_info.length == 0){
+                        toastr.warning('Please choose devices for launch.','No selected device for launch');
+                    }
+                    else {
+                        for(var i = 0; i < select_device_info.length ; i++){
+                            mvn_remote_launch(select_device_info[i].ip);
+                        }
+                    }
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                className: "btn-cancel"
+            }
+        },
+        className : "launch_devicelist_modal"
+    });
+}
+
+
+
+</script>
+
+</body>
+</html>

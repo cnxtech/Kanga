@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Connected Device details</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/font-flaticon/flaticon.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/toastr/toastr.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/gritter/jquery.gritter.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <!--external css-->
+
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/bootstrap-datetimepicker/bootstrap-datetimepicker.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+    <!-- icheck -->
+    <link href="{% static 'uiapp/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <!-- My CSS -->
+    <!--<link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">-->
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/dataTables/select.dataTables.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/dataTables/jquery.dataTables.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-link"></i> Connected Device details</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'system:index' %}">System</a></li>
+                    <li><a href="{% url 'system:connected-devices' %}">Connected Devices</a></li>
+                    <li class="active"><strong>Connected Device details</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="devices-list" class="col-lg-12 animated fadeInRight">
+                <div class="ibox-title">
+                    <h3>
+                        Connected Device details : {{ ip }}
+                        <div class="ibox-tools">
+                            <button class="btn btn-success btn-xs" id="refresh_device"><i class="fa fa-refresh"></i> Refresh</button>
+                        </div>
+                    </h3>
+                </div>
+                <div class="ibox-content">
+                    <table id="dataTables-device-detail" class="table  table-hover table-striped " width="100%">
+                        <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Created at</th>
+                            <th>Uptime</th>
+                            <th>Restart time</th>
+                            <th>CPU(%)</th>
+                            <th>Memory(MB)</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-right: 15px;">
+                        <span style="float: right;">
+                            <a href="{% url 'system:connected-devices' %}">
+                                <button class="btn btn-primary btn-md">Confirm</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+
+<!-- Bootbox -->
+<script src="{% static 'uiapp/externals/bootbox/bootbox.min.js' %}"></script>
+<!-- Chosen -->
+<script src="{% static 'uiapp/externals/chosen/chosen.jquery.js' %}"></script>
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.select.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+<!-- my js -->
+<script src="{% static 'uiapp/js/own.scripts.js' %}"></script>
+<script src="{% static 'uiapp/js/helper.js' %}"></script>
+<script src="{% static 'uiapp/js/String.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+var table;
+
+$(document).ready(function() {
+    /*datatable initialization*/
+    table = $('#dataTables-device-detail').DataTable({
+        ajax: {
+            "type" : "POST",
+            "url": "{% url 'system:api-get-connected-device-details' %}", //Connect device status Restful API call URL(Supervisor)
+            "data": {
+                ip : "{{ ip }}"
+            }
+        },
+
+        columns: [
+            {"data": "pid"},
+            {"data": "name"},
+            {"data": "status"},
+            {"data": "created_at"},
+            {"data": "uptime"},
+            {"data": "restart_time"},
+            {"data": "cpu"},
+            {"data": "memory"},
+            {"data":"action"}
+        ],
+        order: [[ 2, "desc" ]],
+        processing: true,
+        language: {
+            "search": "Search: ",
+            "loadingRecords": "",
+            "processing": "<span><i class='fa fa-spinner fa-pulse fa-4x'></i></span>"
+        },
+    });
+
+    /*command cell click event to view detail*/
+
+    $("#refresh_device").click(function(){
+        table.ajax.reload();
+
+    });
+
+});
+
+function ajax_start_topology(ip,topology_name,is_supervisor){
+    $.ajax({
+        type: 'POST',
+        url: 'http://'+ip +':8888/topology/',
+        data: {
+            id : topology_name,
+            supervisor : is_supervisor
+        },
+        timeout : 30000,
+        success: function (json) {
+            var success_msg = 'Kanga successfully start the topology into '+ ip;
+            var error_msg = 'Topology start failed into ' + ip;
+
+            if (json['result']=="success") {
+                toastr.success(json['description'], 'Success');
+                table.ajax.reload();
+            }
+            else if(json['result']=='notrunning'){
+                toastr.warning(json['description'], 'Failed');
+            }
+            else {
+                toastr.error(error_msg + '\n' + json['description'], 'Failed');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+
+        }
+    });
+
+}
+
+function ajax_stop_topology(ip,topology_name){
+    $.ajax({
+        type: 'DELETE',
+        url: 'http://'+ip +':8888/topology/'+topology_name,
+        timeout : 30000,
+        success: function (json) {
+            var success_msg = 'Kanga successfully stop the topology into '+ ip;
+            var error_msg = 'Topology stop failed into ' + ip;
+            var warning_msg = 'Topology is not running into ' + ip;
+
+            if (json['result']=="success") {
+                toastr.success(json['description'], 'Success');
+                table.ajax.reload();
+            }
+            else if(json['result']=='notrunning'){
+                toastr.warning(json['description'], 'Failed');
+            }
+            else {
+                toastr.error(error_msg + '\n' + json['description'], 'Failed');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+
+        }
+    });
+
+}
+
+</script>
+</body>
+</html>

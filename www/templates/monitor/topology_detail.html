@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Running Query Details</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-bolt"></i> Running Query Details</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'monitor:index' %}">Job Monitor</a></li>
+                    <li class="active"><strong>Running Query Details</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>
+                            Running queries - topology list
+                            <div class="ibox-tools">
+                                <button class="btn btn-success btn-xs" id="refresh_topology_list"><i class="fa fa-refresh"></i> Refresh</button>
+                                <button id="ip_settings" data-toggle="button" class="btn btn-success btn-xs" type="button"><i class="fa fa-cog"></i> Settings</button>
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-down"></i>
+                                </a>
+                            </div>
+                        </h2>
+                    </div>
+                    <div class="ibox-content" style="display: none;">
+                        <table id="dataTables-topology" class="table  table-hover table-striped " width="100%">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Uptime</th>
+                                <th>Workers</th>
+                                <th>Executors</th>
+                                <th>Tasks</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+                <div class="ibox float-e-margins">
+                    <div class="widget style1 {{topology.color}}">
+                        <div class="row">
+                            <div class="col-xs-1">
+                                <i class="fa {{topology.status}} fa-5x "></i>
+                            </div>
+                            <div class="col-xs-3 text-left">
+                                <span> Topology Name </span>
+                                <h3 class="font-bold">{{topology.name}}</h3>
+                            </div>
+                            <div class="col-xs-3 text-right">
+                                <span>emitted/transferred eps in last 10min</span>
+                                <h2 class="font-bold">{{topology.emitted_eps}}/{{topology.transferred_eps}}</h2>
+                            </div>
+                            <div class="col-xs-3 text-right">
+                                <span>num workers/executors/tasks</span>
+                                <h2 class="font-bold">{{topology.workersTotal}}/{{topology.executorsTotal}}/{{topology.tasksTotal}}</h2>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <span>uptime</span>
+                                <h2 class="font-bold">{{topology.uptime}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                                {% for key, value in actions.items %}
+                                <a href="{{value}}"><button type="button" class="btn btn-primary m-r-xs">{{key}}</button></a>
+                                {% endfor %}
+                                {% if actions %}
+                                <a href="{% url 'monitor:topology-detail' id %}"><button class="btn btn-primary" id="refresh_topology_stat"><i class="fa fa-refresh"></i> Refresh</button></a>
+                                <button class="btn btn-primary" id="refresh_chart"><i class="fa fa-refresh"></i> Refresh Chart</button>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if actions %}
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div id="latencyPerf"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div id="ioPerf" ></div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Topology Performance</h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>window</th>
+                                <th>completeLatency</th>
+                                <th>transferred</th>
+                                <th>emitted</th>
+                                <th>acked</th>
+                                <th>failed</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for stat in topologyStats %}
+                                <tr>
+                                    <td>{{stat.windowPretty}}</td>
+                                    <td>{{stat.completeLatency}}</td>
+                                    <td>{{stat.transferred}}</td>
+                                    <td>{{stat.emitted}}</td>
+                                    <td>{{stat.acked}}</td>
+                                    <td>{{stat.failed}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Spouts</h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>spoutId</th>
+                                <th>completeLatency</th>
+                                <th>transferred</th>
+                                <th>emitted</th>
+                                <th>acked</th>
+                                <th>failed</th>
+                                <th>executors/tasks</th>
+                                <th>lastError</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for spout in spouts %}
+                                <tr>
+                                    <td>{{spout.spoutId}}</td>
+                                    <td>{{spout.completeLatency}}</td>
+                                    <td>{{spout.transferred}}</td>
+                                    <td>{{spout.emitted}}</td>
+                                    <td>{{spout.acked}}</td>
+                                    <td>{{spout.failed}}</td>
+                                    <td>{{spout.executors}}/{{spout.tasks}}</td>
+                                    <td><font color="red">{{spout.lastError}}</font></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Bolts</h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>boltId</th>
+                                <th>processLatency</th>
+                                <th>executeLatency</th>
+                                <th>acked</th>
+                                <th>transferred</th>
+                                <th>emitted</th>
+                                <th>failed</th>
+                                <th>executors/tasks</th>
+                                <th>lastError</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for bolt in bolts %}
+                                <tr>
+                                    <td>{{bolt.boltId}}</td>
+                                    <td>{{bolt.processLatency}}</td>
+                                    <td>{{bolt.executeLatency}}</td>
+                                    <td>{{bolt.acked}}</td>
+                                    <td>{{bolt.transferred}}</td>
+                                    <td>{{bolt.emitted}}</td>
+                                    <td>{{bolt.failed}}</td>
+                                    <td>{{bolt.executors}}/{{bolt.tasks}}</td>
+                                    <td><font color="red">{{bolt.lastError}}</font></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Topology Configuration</h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table id="dataTables-topology-configuration" class="table  table-hover table-striped " width="100%">
+                            <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for key, value in configuration.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+
+<!-- chartjs -->
+<script src="{% static 'uiapp/externals/devexpress/globalize.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/devextreme/dx.chartjs.js' %}"></script>
+
+<!-- Knocout -->
+<script src="{% static 'uiapp/externals/knockout/knockout-3.3.0.js' %}"></script>
+<script src="{% static 'uiapp/externals/knockout/knockout.mapping.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+
+var topology_id = "{{id}}";
+var topology_stat_url = "{% url 'monitor:api-topology-stat' 0 %}";
+topology_stat_url = topology_stat_url.substring(0,topology_stat_url.length-3);
+
+    function topology_list_table(){
+        $('#dataTables-topology').dataTable({
+            "ajax": {
+                "url": '{% url 'monitor:api-storm-topology-summary' %}',
+                "error": handleAjaxError
+            },
+            "columns": [
+                {"data": "name"},
+                {"data": "status"},
+                {"data": "uptime"},
+                {"data": "workersTotal"},
+                {"data": "executorsTotal"},
+                {"data": "tasksTotal"},
+            ],
+            language: {"search": "Search: "},
+            bDestroy: true,
+        });
+    }
+    $(document).ready(function() {
+        /*datatable initialization*/
+        $('#dataTables-topology-configuration').dataTable({
+            language: {"search": "Search: "},
+            "pageLength": 25,
+        });
+        topology_list_table();
+        {% if info %}
+        toastr.success('{{ info }}', '');
+        {% endif %}
+        {% if warning %}
+        toastr.warning('{{ warning }}', '');
+        {% endif %}
+        $('#refresh_topology_list').on( 'click', function (e)
+        {
+            topology_list_table();
+        });
+        var ioPerf = new DevExpress.data.DataSource();
+        var latencyPerf = new DevExpress.data.DataSource();
+        if (topology_id!=""){
+            $.ajax({
+                    url: topology_stat_url+"/"+topology_id,
+                    timeout: 10000,
+                    success: function(json) {
+                        if (json.hasOwnProperty('error')){
+                            $("#ioPerf").html("");
+                            $("#latencyPerf").html("");
+                        } else {
+                            console.log('1111111')
+                            $("#ioPerf").dxChart("instance").option({ dataSource: json.io_perf });
+                            $("#latencyPerf").dxPieChart("instance").option({ dataSource: json.latency_perf });
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    },
+                    complete: function(jqXHR) {
+                        console.log(jqXHR);
+                    },
+                    dataType:"json",
+            });
+        }
+        var ioPerfChart = $("#ioPerf").dxChart({
+            animation: { enabled: true },
+            rotated: true,
+            dataSource: ioPerf,
+            commonSeriesSettings: {
+                argumentField: "id",
+                type: "bar",
+                hoverMode: "allArgumentPoints",
+                selectionMode: "allArgumentPoints",
+                label: {
+                    visible: true,
+                    format: "fixedPoint",
+                    precision: 0
+                }
+            },
+            series: [
+                { valueField: "transferred", name: "transferred" },
+                { valueField: "transferred", name: "acked" },
+                { valueField: "emitted", name: "emitted" },
+            ],
+            title: "Traffic Performance (in messages)",
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center"
+            },
+            tooltip: {
+                enabled: true,
+                percentPrecision: 0
+            },
+        });
+
+        $("#refersh_chart").click(function(e){
+            ioPerfChart._render();
+            console.log(ioPerfChart);
+        });
+
+
+        $("#latencyPerf").dxPieChart({
+            animation: { enabled: true },
+            dataSource: latencyPerf,
+            series: {
+                argumentField: 'id',
+                valueField: 'latency',
+                label: {
+                    visible: true,
+                    connector: {
+                        visible: true
+                    }
+                },
+                type: "doughnut",
+                smallValuesGrouping: {
+                    mode: "topN",
+                    topCount: 4
+                },
+            },
+            pathModified: true,
+            tooltip: {
+                enabled: true,
+                percentPrecision: 1,
+                customizeTooltip: function (value) {
+                    return {
+                        text: value.percentText
+                    };
+                }
+            },
+            title: {
+                text: 'Latency (in millisecond)'
+            },
+            legend: {
+                horizontalAlignment: 'center',
+                verticalAlignment: 'bottom'
+            }
+        });
+    });
+    function handleAjaxError( xhr, textStatus, error ) {
+        if ( textStatus === 'timeout' ) {
+            alert( 'The server took too long to send the data.' );
+        }
+        else {
+            alert( 'An error occurred on the server. Please try again in a minute.' );
+        }
+    }
+</script>
+</body>
+</html>

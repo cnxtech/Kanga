@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Register</title>
+
+    <link href="{{ STATIC_PREFIX }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/animate.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/style.css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        function registerUser(){
+            $.ajax({
+					async: true,
+					url: '/cepauth/createuser',
+					data :{
+					id : $('#id').val(), password : $('#password').val(),
+					email_address : $('#email_address').val(), full_name : $('#full_name').val()
+					},
+					success: function(data){
+						alert(data);
+						$('#createUserForm').each (function(){
+                          this.reset();
+                        })
+
+					}
+				});
+        }
+    </script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">ATLASP</h1>
+
+            </div>
+            <h3>Create Role</h3>
+
+            <form class="m-t" role="form" id="createUserForm" action="/cepauth/createuser" method="post">{% csrf_token %}
+                <div class="form-group">
+                    <input type="text" id="id" name="id" class="form-control" placeholder="ID" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="full_name" name="fullname" class="form-control" placeholder="Full Name" required="">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email_address" name="email_address" class="form-control" placeholder="Email" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password" required="">
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" onClick="registerUser()">Create Role</button>
+
+
+            </form>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

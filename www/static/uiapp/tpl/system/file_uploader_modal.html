@@ -1,0 +1,59 @@
+<div class="modal-dialog" style="width: 400px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-bar-chart modal-icon"></i>
+            <h4 class="modal-title">Choose Chart Type</h4>
+            <!--small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small-->
+        </div>
+        <div class="modal-body" >
+            <div class="row">
+                <form action="aaaa" class="dropzone" id="upload-zone" enctype="multipart/form-data"></form>
+                <button id="upload_submit" type="button" class="btn btn-primary btn-xs">Submit</button>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+<script>
+    $("#upload-zone").html(token);
+Dropzone.options.uploadZone = {
+                acceptedFiles: ".jar",
+                parallelUploads: 10,
+
+                init : function() {
+
+                    uploadZone = this;
+
+                    $("#upload_submit").click(function() {
+                        uploadZone.processQueue();
+                    });
+
+                    uploadZone.on("addedfile", function(file) {
+                        var name = file.name;
+                        var splits = name.split('.');
+                        console.log(splits);
+                        var file_extension = splits[splits.length - 1];
+
+                        if (file_extension != "jar")
+                        {
+                            var warn_text = "We don't support [" + file_extension + "]!";
+                            toastr.error(warn_text);
+                            uploadZone.removeFile(file);
+                        }
+                    });
+
+                    uploadZone.on("success",function(file) {
+                        toastr.success("Uploaded the library file !");
+                        //uploadZone.removeFile(file);
+                    });
+                }
+            };
+
+
+</script>

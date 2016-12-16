@@ -1,0 +1,158 @@
+KANGAIDE_VERSION = '0.90.02'
+"""
+Django settings for kanga project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.7/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.7/ref/settings/
+"""
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+import tempfile
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+import django.contrib.auth
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ')d2kbucnl*ob92u)7!jfi5oqi*cg8dx0=z0akujeivj&k@d7k4'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['0.0.0.0', '10.0.0.0', 'localhost', 'kanga', '*']
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+)
+FILE_UPLOAD_HANDLERS = (
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+)
+ROOT_URLCONF = 'kanga.urls'
+WSGI_APPLICATION = 'kanga.wsgi.application'
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.7/topics/i18n/
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.7/howto/static-files/
+#STATIC_ROOT = 'staticfiles'
+# STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
+
+
+# Sean added ------------
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'kanga',
+#         'USER': 'kanga',
+#         'PASSWORD': 'kanga123!',
+#         'HOST': 'localhost',#'10.251.21.176',
+#         'PORT': '54322',
+#     }
+# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'kanga_db',
+        'ATOMIC_REQUESTS': True
+    }
+}
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'help',
+    'knowledge',
+    'workspace',
+    'account',
+    'system',
+    'monitor',
+    'corsheaders',
+)
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+MEDIA_ROOT = os.path.join(tempfile.gettempdir(), 'kanga/media')
+MEDIA_URL = '/media/'
+
+# Email Setting / Account Setting
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.samsung.com'
+EMAIL_PORT = 25  # Port for sending e-mail.
+EMAIL_USE_TLS = False
+SESSION_COOKIE_AGE = 180000 # Session Time out in Sec.
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+LOGIN_URL = '/account/login/'
+# TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+#     'django.contrib.auth.context_processors.auth',
+#     'django.core.context_processors.request',
+# )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'socketio': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+    },
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+django.contrib.auth.REDIRECT_FIELD_NAME = 'return_uri'

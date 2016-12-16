@@ -1,0 +1,131 @@
+from django import forms
+from django.contrib.auth.models import User, Group
+from django.contrib.auth import authenticate
+from account.models import JobTitle
+
+
+class LoginForm(forms.Form):
+
+    username = forms.CharField(max_length=50, required=True)
+    password = forms.CharField(max_length=30, required=True, widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super(LoginForm, self).clean()
+        username = cleaned_data.get('username', '')
+        password = cleaned_data.get('password', '')
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError("The given username is not found in the system record")
+        if not authenticate(username=username, password=password):
+            raise forms.ValidationError("The given username and password is not matched")
+        if not authenticate(username=username, password=password).is_active:
+            raise forms.ValidationError("Your account is not activated yet")
+        return self.cleaned_data
+
+
+class CreateUserForm(forms.Form):
+
+    username = forms.CharField(max_length=50,required=True)
+    first_name = forms.CharField(max_length=50,required=True)
+    last_name = forms.CharField(max_length=50,required=True)
+    email_address = forms.EmailField(max_length=30,required=True)
+    job_title = forms.ChoiceField(choices=[ (o.title, str(o)) for o in JobTitle.objects.all()],required=False)
+    password = forms.CharField(max_length=30, widget=forms.PasswordInput)
+    confirm_password = forms.CharField(max_length=30,widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super(CreateUserForm, self).clean()
+        username = cleaned_data.get('username', '')
+        email_address = cleaned_data.get('email_address', '')
+        job_title = cleaned_data.get('job_title', '')
+        password = cleaned_data.get('password', '')
+        confirm_password = cleaned_data.get('confirm_password', '')
+        if( User.objects.filter(username=username).exists() ):
+            raise forms.ValidationError("User ID already exists")
+        if( User.objects.filter(email=email_address).exists() ):
+            raise forms.ValidationError("This email address is already registered, Please use different email address. ")
+        if not job_title:
+            raise forms.ValidationError("Please select job title ")
+        if(password != confirm_password ):
+            raise forms.ValidationError("Password and Confirm Password should be the same")
+        return self.cleaned_data
+
+class EditUserForm(forms.Form):
+
+    username = forms.CharField(max_length=50,required=True)
+    full_name = forms.CharField(max_length=50)
+    email_address = forms.EmailField(max_length=30)
+    password = forms.CharField(max_length=30,widget=forms.PasswordInput)
+    confirm_password = forms.CharField(max_length=30,widget=forms.PasswordInput)
+    role = forms.MultipleChoiceField()
+    selected_role = forms.MultipleChoiceField()
+
+class CreateRoleForm(forms.Form):
+
+    role_name = forms.CharField(max_length=50,required=False)
+    restrict_search_terms = forms.CharField(max_length=50,required=False)
+    restrict_search_timerange = forms.CharField(max_length=50,required=False)
+    userlevel_concurrent_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    userlevel_concurrent_realtime_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    rolelevel_concurrent_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    rolelevel_concurrent_realtime_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    limit_total_jobs_disk_quota = forms.CharField(max_length=50,required=False)
+    selected_indexes = forms.CharField(max_length=50,required=False)
+    selected_search_indexes = forms.CharField(max_length=50,required=False)
+
+
+    def clean(self):
+        cleaned_data = super(CreateRoleForm, self).clean()
+        role_name = cleaned_data.get('role_name', '')
+        if( Group.objects.filter(name=role_name).exists() ):
+            raise forms.ValidationError("Role already exists")
+        restrict_search_timerange = cleaned_data.get('restrict_search_timerange', '')
+        userlevel_concurrent_searchjobs_limit = cleaned_data.get('userlevel_concurrent_searchjobs_limit', '')
+        userlevel_concurrent_realtime_searchjobs_limit = cleaned_data.get('userlevel_concurrent_realtime_searchjobs_limit', '')
+        rolelevel_concurrent_searchjobs_limit = cleaned_data.get('rolelevel_concurrent_searchjobs_limit', '')
+        rolelevel_concurrent_realtime_searchjobs_limit = cleaned_data.get('rolelevel_concurrent_realtime_searchjobs_limit', '')
+        limit_total_jobs_disk_quota = cleaned_data.get('limit_total_jobs_disk_quota', '')
+        if(restrict_search_timerange.isalpha()):
+            raise forms.ValidationError("Please Enter Valid 'Restrict Search Time Range'  Value")
+        if(userlevel_concurrent_searchjobs_limit.isalpha()):
+            raise forms.ValidationError("Please Enter Valid 'User-level Concurrent Search jobs limit' Value ")
+        if(userlevel_concurrent_realtime_searchjobs_limit.isalpha()):
+            raise forms.ValidationError("Please Enter Valid 'User-level Concurrent realtime Searchjobs limit' Value")
+        if(rolelevel_concurrent_searchjobs_limit.isalpha()):
+            raise forms.ValidationError("Please Enter Valid 'Role-level Concurrent Searchjobs_limit' Value")
+        if(rolelevel_concurrent_realtime_searchjobs_limit.isalpha()):
+            raise forms.ValidationError("Please Enter Valid 'Role-level Concurrent Realtime Searchjobs Limit' Value ")
+        if(limit_total_jobs_disk_quota.isalpha()):
+            raise forms.ValidationError("Please Enter Valid Limit 'Limit total jobs disk quota' Value")
+        return self.cleaned_data
+
+
+class EditRoleForm(forms.Form):
+
+    role_name = forms.CharField(max_length=50,required=False)
+    restrict_search_terms = forms.CharField(max_length=50,required=False)
+    restrict_search_timerange = forms.CharField(max_length=50,required=False)
+    userlevel_concurrent_searchjobs_limit = forms.CharField(max_length=50 ,required=False)
+    userlevel_concurrent_realtime_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    rolelevel_concurrent_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    rolelevel_concurrent_realtime_searchjobs_limit = forms.CharField(max_length=50,required=False)
+    limit_total_jobs_disk_quota = forms.CharField(max_length=50,required=False)
+    selected_indexes = forms.CharField(max_length=50,required=False)
+    selected_search_indexes = forms.CharField(max_length=50,required=False)
+    role_list = forms.MultipleChoiceField()
+    selected_role_list = forms.MultipleChoiceField()
+    permission_list = forms.MultipleChoiceField()
+    selected_permission_list = forms.MultipleChoiceField()
+
+
+class SuccessMessageForm(forms.Form):
+
+    message = forms.CharField(max_length=500)
+
+
+class ForgotPasswordForm(forms.Form):
+
+    username = forms.CharField(max_length=50, required=False)
+    email = forms.CharField(max_length=50, required=False)
+
+
+

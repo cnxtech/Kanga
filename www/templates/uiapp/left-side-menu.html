@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<nav class="navbar-default navbar-static-side sidebar" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                {% if user.is_authenticated and request.session.job_title != '' %}
+                <div class="dropdown profile-element">
+                    <span>
+                        <a href="{% url 'index' %}">
+                            <p style="text-align: center;">
+                                <img src="{% static 'uiapp\img\noun_4742_cc.svg' %}">
+                            </p>
+                        </a>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <p style="text-align: center;">
+                                <span class="block m-t-xs"> <strong class="font-bold">{{ user.first_name }} {{ user.last_name }}</strong></span>
+                            </p>
+                            <p style="text-align: center;">
+                                <span class="text-muted text-xs block text-job-title">{{ request.session.job_title }} <b class="caret"></b></span>
+                            </p>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="{% url 'account:edit-user' user.username %}">Edit Account</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'account:logout'%}">Logout</a></li>
+                    </ul>
+                </div>
+                {% else %}
+                <div class="dropdown profile-element">
+                    <span>
+                        <a href="{% url 'index' %}">
+                            <p style="text-align: center;">
+                                <img src="{% static 'uiapp\img\noun_4742_cc.svg' %}">
+                            </p>
+                        </a>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <p style="text-align: center;">
+                                <span class="block m-t-xs"> <strong class="font-bold">Guest</strong></span>
+                            </p>
+                            <p style="text-align: center;">
+                                <span class="text-muted text-xs block text-job-title">Welcome to Kanga<b class="caret"></b></span>
+                            </p>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="{% url 'account:register' %}">Create account</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'account:login' %}">Sign in</a></li>
+                    </ul>
+                </div>
+                {% endif %}
+
+            </li>
+            {% if '/workspace/' in request.build_absolute_uri %}
+            <li class="active">{% else %}<li>{% endif %}
+                <a href="index.html"><i class="fa fa-pencil-square-o"></i> <span class="nav-label">Workspace</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="{% url 'workspace:streaming-query' %}">Streaming Query</a></li>
+               </ul>
+            </li>
+            {% if '/monitor/' in request.build_absolute_uri %}<li class="active">{% else %}<li>{% endif %}
+                <a href="mailbox.html"><i class="fa fa-desktop"></i> <span class="nav-label">Job Monitor </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="{% url 'monitor:running-queries' %}">Running Queries</a></li>
+                </ul>
+            </li>
+
+            {% if '/plugins/' in request.build_absolute_uri %}<li class="active">{% else %}<li>{% endif %}
+                <a href="#"><i class="fa fa-server"></i> <span class="nav-label">Plugins Manager</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="{% url 'system:plugins-register' %}">Register</a></li>
+                    <li><a href="{% url 'system:plugins-library' %}">Version Info</a></li>
+                    <li><a href="{% url 'system:plugins-history' %}">Install History</a></li>
+                </ul>
+            </li>
+
+
+            {% if '/connected_device/' in request.build_absolute_uri %}<li class="active">{% else %}<li>{% endif %}
+                <a href="#"><i class="fa fa-wrench"></i> <span class="nav-label">System</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="/kanga-admin/" target="_blank">Administration</a></li>
+                </ul>
+            </li>
+
+            {% if '/help/' in request.build_absolute_uri  %}<li class="active">{% else %}<li>{% endif %}
+                <a href="#"><i class="fa fa-support"></i> <span class="nav-label">Help</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="{% url 'help:tutorials' %}">Tutorials</a></li>
+                    <li><a href="/help/contacts/">Contact Supports</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</nav>

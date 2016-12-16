@@ -1,0 +1,334 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Kanga - Distributed Realtime Analytics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'uiapp/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- Animate -->
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}" />
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'uiapp/css\plugins\steps/jquery.steps.css' %}" rel="stylesheet">
+
+
+
+</head>
+<body class="pace-done ">
+
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+
+        <!-- body -->
+        <div class="wrapper wrapper-content">
+
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="widget style1 green-bg">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <i class="fa fa-smile-o fa-5x "></i>
+                            </div>
+                            <div class="col-xs-5 text-right">
+                                <span>uptime</span>
+                                <h2 class="font-bold">3h 38m 6s</h2>
+                            </div>
+                            <div class="col-xs-5 text-right">
+                                <span>num workers/executors/tasks</span>
+                                <h2 class="font-bold">1/6/6</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="widget style1 green-bg">
+                        <div class="row">
+                            <div class="col-xs-5 text-left">
+                                <span> Event Per Second </span>
+                                <h2 class="font-bold">500 eps</h2>
+                            </div>
+                            <div class="col-xs-7 text-right">
+                                <span>transferred/emitted/acked/failed</span>
+                                <h3 class="font-bold">1,649,320/1,100,180/0/0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <!--div class="widget style1 default-bg"-->
+                    <div class="row show-grid" style="margin-bottom: 8px;">
+                        <button id='refresh' type="button" class="btn btn-success"><i class="fa fa-refresh"></i> Refresh</button>
+                    </div>
+                    <div class="row show-grid" style="margin-top: 8px;">
+                        <button id='see_detail' type="button" class="btn btn-success"><i class="fa fa-list"></i> See Details</button>
+                    </div>
+                    <!--/div-->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h2>Topology Process Latency (in millisecond)</h2>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="latencyPerf"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h2>Topology I/O Traffic Performance (in messages)</h2>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="ioPerf" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var HOST = "{{ BASE_URL }}"
+</script>
+<script src="{% static 'uiapp/js/constants.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+
+<script src="{% static 'uiapp/externals/pace/pace.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+<!-- Steps -->
+<script src="{% static 'uiapp/js/plugins/staps/jquery.steps.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/validate/jquery.validate.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/metisMenu/jquery.metisMenu.js' %}"></script>
+
+<!-- chartjs -->
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+<script src="{% static 'uiapp/externals/devextreme/dx.chartjs.js' %}"></script>
+
+<!-- Knocout -->
+<script src="{% static 'uiapp/externals/knockout/knockout-3.3.0.js' %}"></script>
+<script src="{% static 'uiapp/externals/knockout/knockout.mapping.js' %}"></script>
+
+
+<script>
+$(document).ready(function() {
+
+    //DevExpress.viz.currentPalette('Pastel');
+    var ioPerf = new DevExpress.data.DataSource({
+        load: function (loadOptions) {
+            var d = new $.Deferred();
+            $.getJSON('/monitor/services/topology/sample/')
+                .done(function (data) {
+                    // ...
+                    // process data here
+                    // ...
+                    d.resolve(data);
+            });
+            return d.promise();
+        }
+    });
+/*
+    var ioPerf = [
+        {
+            "emitted": 145280,
+            "subscribed": 145280,
+            "id": "flowchart_passthrough_from_file_191"
+        },
+        {
+            "emitted": 145240,
+            "subscribed": 145260,
+            "id": "flowchart_cnc_tool_failure_924"
+        },
+        {
+            "emitted": 0,
+            "id": "flowchart_save_to_file_650",
+            "subscribed": 100
+        },
+        {
+            "emitted": 0,
+            "id": "flowchart_save_to_file_956",
+            "subscribed": 145260
+        },
+        {
+            "emitted": 100,
+            "id": "flowchart_where_clause_244",
+            "subscribed": 145240
+        }
+    ];
+*/
+    var latencyPerf = [
+        {
+            "latency": 0.000,
+            "id": "flowchart_passthrough_from_file_191"
+        },
+        {
+            "latency": 0.064,
+            "id": "flowchart_cnc_tool_failure_924"
+        },
+        {
+            "latency": 0.000,
+            "id": "flowchart_save_to_file_650"
+        },
+        {
+            "latency": 0.081,
+            "id": "flowchart_save_to_file_956"
+        },
+        {
+            "latency": 0.105,
+            "id": "flowchart_where_clause_244"
+        }
+    ];
+
+
+    $("#ioPerf").dxChart({
+        rotated: true,
+        dataSource: ioPerf,
+        commonSeriesSettings: {
+            argumentField: "id",
+            type: "bar",
+            hoverMode: "allArgumentPoints",
+            selectionMode: "allArgumentPoints",
+            label: {
+                visible: true,
+                format: "fixedPoint",
+                precision: 0
+            }
+        },
+        series: [
+            { valueField: "subscribed", name: "subscribed" },
+            { valueField: "emitted", name: "emitted" }
+        ],
+        /*
+        title: "Gross State Product within the Great Lakes Region",
+        */
+        legend: {
+            verticalAlignment: "bottom",
+            horizontalAlignment: "center"
+        },
+        onPointClick: function(e) {
+            var point = e.target;
+            point.showTooltip();
+        },
+    });
+
+
+    $("#latencyPerf").dxPieChart({
+        dataSource: latencyPerf,
+        series: {
+            argumentField: 'id',
+            valueField: 'latency',
+            label: {
+                visible: true,
+                connector: {
+                    visible: true
+                }
+            }
+        },
+        pathModified: true,
+        tooltip: {
+            enabled: true,
+            percentPrecision: 1,
+            customizeTooltip: function (value) {
+                return {
+                    text: value.percentText
+                };
+            }
+        },
+        /*
+        title: {
+            text: 'Continental Population by 2010 (in millions)'
+        },
+        */
+        legend: {
+            horizontalAlignment: 'center',
+            verticalAlignment: 'bottom'
+        }
+    });
+
+
+    $("#refresh").click(function(){
+        $.ajax({
+            url: "/monitor/services/topology/sample/",
+            timeout: 10000,
+            success: function(json) {
+                $("#ioPerf").dxChart("instance").option({ dataSource: json });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            complete: function(jqXHR) {
+                console.log(jqXHR);
+            },
+            dataType:"json",
+        });
+        console.log(ioPerf);
+    });
+
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</html>

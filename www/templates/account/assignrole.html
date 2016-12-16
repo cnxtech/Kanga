@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Register</title>
+
+    <link href="{{ STATIC_PREFIX }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/animate.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/style.css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+				$.ajax({
+					async: true,
+					url: '/account/fetchAllUser',
+					success: function(data)
+					{
+						jQuery.each(data, function(i, val) {
+							$("#user_list").append('<option name='+val.value+' value='+val.value+'>'+val.value+'</option>');
+						});
+					}
+				})
+				$.ajax({
+					async: true,
+					"url": '{% url 'account:fetchAllRole' %}',
+					success: function(data)
+					{
+						jQuery.each(data, function(i, val) {
+							$("#role_list").append('<option name='+val.value+' value='+val.value+'>'+val.value+'</option>');
+						});
+					}
+				})
+			})
+	</script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">ATLASP</h1>
+
+            </div>
+            <h3>Assign Role</h3>
+            
+            <form class="m-t" role="form" id="createUserForm" action="/account/assignrole" method="post">{% csrf_token %}
+			
+									{% if form.errors %}
+									{% for field in form %}
+										{% for error in field.errors %}
+											<div>
+												<strong>{{ error|escape }}</strong>
+											</div>
+										{% endfor %}
+									{% endfor %}
+									{% for error in form.non_field_errors %}
+										<div class="alert alert-error">
+											<strong>{{ error|escape }}</strong>
+										</div>
+									{% endfor %}
+								{% endif %}
+
+				
+               
+                
+				 <div class="form-group">
+				 <table>
+				 <div><tr><td><label>User List </label></td><td><select  class="form-control" id="user_list" name="user_list"  ></select></td></tr></div>
+				 <tr><td>  </td></tr>
+				 <div><tr><td><label>Role List </label></td><td><select class="form-control" id="role_list" name="role_list"  multiple></select></td></tr></div>
+				 </table>
+				
+                </div>
+				
+				
+                <button type="submit" class="btn btn-primary block full-width m-b" >Assign Role</button>
+
+				
+               
+            </form>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

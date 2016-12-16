@@ -1,0 +1,361 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Role</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="pace-done ">
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-10">
+                <h2>Roles</h2>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">System</a></li>
+                    <li><a>Access Controls</a></li>
+                    <li class="active"><strong>Add Role</strong></li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h2>Add Role</h2>
+
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal" method="post" id="addroleform">{% csrf_token %}
+                                {% if form.errors %}
+									{% for field in form %}
+										{% for error in field.errors %}
+											<div>
+												<strong><font style='color:red;font-size: 12px'>{{ error|escape }}</font></strong>
+											</div>
+										{% endfor %}
+									{% endfor %}
+									{% for error in form.non_field_errors %}
+										<div class="alert alert-error">
+											<strong><font style='color:red;font-size: 12px'>{{ error|escape }}</font></strong>
+										</div>
+									{% endfor %}
+								{% endif %}
+
+                                <div class="form-group"><label class="col-sm-1 control-label">Role Name</label>
+
+                                    <div class="col-lg-10"><input type="text" id="role_name" name="role_name" class="form-control" value="{{form.role_name.value}}" required="true">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Restrict Search terms</label>
+
+                                    <div class="col-lg-10"><input type="text" id="restrict_search_terms" name="restrict_search_terms" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Restrict Search Time Range</label>
+
+                                    <div class="col-lg-10"><input type="text" id="restrict_search_timerange" name="restrict_search_timerange" class="form-control" value="{{form.restrict_search_timerange.value}}" required="true">
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">User-level Concurrent Search jobs limit</label>
+
+                                    <div class="col-lg-10"><input type="text" id="userlevel_concurrent_searchjobs_limit" name="userlevel_concurrent_searchjobs_limit" class="form-control" value="{{form.userlevel_concurrent_searchjobs_limit.value}}" required="true">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">User-level Concurrent realtime Searchjobs limit</label>
+
+                                    <div class="col-lg-10"><input type="text" id="userlevel_concurrent_realtime_searchjobs_limit" name="userlevel_concurrent_realtime_searchjobs_limit" class="form-control" value="{{form.userlevel_concurrent_realtime_searchjobs_limit.value}}" required="true">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Role-level Concurrent Searchjobs_limit</label>
+
+                                    <div class="col-lg-10"><input type="text" id="rolelevel_concurrent_searchjobs_limit" name="rolelevel_concurrent_searchjobs_limit" class="form-control" value="{{form.rolelevel_concurrent_searchjobs_limit.value}}" required="true">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Role-level Concurrent Realtime Searchjobs Limit</label>
+
+                                    <div class="col-lg-10"><input type="text" id="rolelevel_concurrent_realtime_searchjobs_limit" name="rolelevel_concurrent_realtime_searchjobs_limit" class="form-control" value="{{form.rolelevel_concurrent_realtime_searchjobs_limit.value}}" required="true">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Limit total jobs disk quota</label>
+
+                                    <div class="col-lg-10"><input type="text" id="limit_total_jobs_disk_quota" name="limit_total_jobs_disk_quota" class="form-control" value="{{form.limit_total_jobs_disk_quota.value}}" required="true">
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Selected Indexes</label>
+
+                                    <div class="col-lg-10"><input type="text" id="selected_indexes" name="selected_indexes" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Selected Search Indexes</label>
+
+                                    <div class="col-lg-10"><input type="text" id="selected_search_indexes" name="selected_search_indexes" class="form-control" >
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-1 control-label">Inheritance Role</label>
+
+                                    <div class="col-lg-10">
+                                        <div class="col-lg-5 m-l-n">
+                                            <select id="role_list" name="role_list" class="form-control" multiple='multiple'></select></div>
+                                        <div class="col-lg-1">
+                                            <button type="button" id="add_role" class="btn btn-primary btn-xs" >Add >></button>
+                                            <button type="button" id="remove_role" class="btn btn-primary btn-xs" ><< Remove</button></div>
+                                         <div class="col-lg-5 m-l-n">
+                                             <select id="selected_role_list" name="selected_role_list"class="form-control"
+                                                multiple="multiple" ></select></div>
+
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-1 control-label">Persmission</label>
+
+                                    <div class="col-lg-10">
+
+                                        <div class="col-lg-5 m-l-n">
+                                            <select id="permission_list" name="permission_list"
+                                                class="form-control" multiple='multiple'></select></div>
+                                        <div class="col-sm-1">
+                                            <button type="button" id="add" class="btn btn-primary btn-xs" >Add >></button>
+                                            <button type="button" id="remove" class="btn btn-primary btn-xs" ><< Remove</button></div>
+                                         <div class="col-lg-5 m-l-n">
+                                             <select id="selected_permission_list" name="selected_permission_list"class="form-control"
+                                                multiple="multiple" ></select></div>
+                                    </div>
+                                </div>
+                                 <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-secondry" id="cancel" type="button">Cancel</button>
+                                        <button class="btn btn-primary" type="submit" id="save" >Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function()
+{
+    $('#cancel').on('click', function () {
+                href = "{% url 'account:role_list' %}";
+                window.location = href;
+    });
+
+    $('#addroleform').submit(function () {
+
+            $("#selected_permission_list option").each(function()
+            {
+                $(this).attr('selected', true);
+            });
+
+            $("#selected_role_list option").each(function()
+            {
+                $(this).attr('selected', true);
+            });
+
+            //$( "#addroleform" ).submit();
+    });
+
+    $('#add').on('click', function () {
+            var itemsToAdd = [];
+            $("#permission_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#selected_permission_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#selected_permission_list").append(itemsToAdd);
+    });
+
+    $('#add_role').on('click', function () {
+            var itemsToAdd = [];
+            $("#role_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#selected_role_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#selected_role_list").append(itemsToAdd);
+    });
+
+    $('#permission_list').on('dblclick', function () {
+            var itemsToAdd = [];
+            $("#permission_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#selected_permission_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#selected_permission_list").append(itemsToAdd);
+    });
+
+    $('#role_list').on('dblclick', function () {
+            var itemsToAdd = [];
+            $("#role_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#selected_role_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#selected_role_list").append(itemsToAdd);
+    });
+
+    $('#remove').on('click', function () {
+            var itemsToAdd = [];
+            $("#selected_permission_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#permission_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#permission_list").append(itemsToAdd);
+    });
+
+    $('#remove_role').on('click', function () {
+            var itemsToAdd = [];
+            $("#selected_role_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#role_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#role_list").append(itemsToAdd);
+    });
+
+    $('#selected_permission_list').on('dblclick', function () {
+            var itemsToAdd = [];
+            $("#selected_permission_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#permission_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#permission_list").append(itemsToAdd);
+    });
+
+    $('#selected_role_list').on('dblclick', function () {
+            var itemsToAdd = [];
+            $("#selected_role_list option:selected").each(function () {
+                var optionVal = $(this).val();
+                var key = $(this).data('key');
+                if ($('#role_list option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+                {
+                    itemsToAdd.push($(this).removeAttr('selected'));
+                }
+            });
+            $("#role_list").append(itemsToAdd);
+    });
+
+    $.ajax({
+        async: true,
+        "url": '{% url 'account:fetchAllPermission' %}',
+        success: function(data)
+        {
+            jQuery.each(data, function(i, val) {
+                $("#permission_list").append('<option name='+val.key+' value='+val.key+'>'+val.value+'</option>');
+            });
+        }
+    })
+    $.ajax({
+        async: true,
+        "url": '{% url 'account:fetchAllRole' %}',
+        success: function(data)
+        {
+            jQuery.each(data, function(i, val) {
+                $("#role_list").append('<option name='+val.key+' value='+val.key+'>'+val.value+'</option>');
+            });
+        }
+    })
+})
+
+</script>
+</body>
+</html>

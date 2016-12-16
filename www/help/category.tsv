@@ -1,0 +1,7 @@
+input_streaming^Input Streaming^red
+transformation^Transformation^orange
+filter^Filter^yello
+aggregation^Aggregation^green
+join^Join, Merge & Sort^blue
+sql^SQL & Lookup^indigo
+builtin^Built-in Functions^violet

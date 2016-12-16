@@ -1,0 +1,210 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit User</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="pace-done ">
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+
+
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2>Users</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="index.html">System</a></li>
+                    <li><a>Access Controls</a></li>
+                    <li class="active"><strong>Edit User</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="ibox-title col-lg-10">
+                    <h2>Edit User Details</h2>
+                </div>
+
+                <div class="ibox-content col-lg-10">
+                    <form id="editUserForm" class="form-horizontal" method="post">{% csrf_token %}
+
+                        <div class="form-group"><label class="col-sm-1 control-label">User ID</label>
+
+                            <div class="col-lg-10">{{ form.username}} <span class="help-block m-b-none">Example block-level help text here.</span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-1 control-label">Full Name</label>
+
+                            <div class="col-sm-10">{{ form.full_name}}</div>
+                        </div>
+                         <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-1 control-label">Email</label>
+
+                            <div class="col-sm-10">{{ form.email_address}}</div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-1 control-label">Role</label>
+
+                            <div class="col-sm-10">
+                                <div class="col-lg-4 m-l-n"><span class="help-block m-b-none">Available Roles</span>{{form.role}}</div>
+                                <!--div class="col-lg-2 text-center vertical-align">
+                                    <button type="button" id="add_role" class="btn btn-primary btn-xs" >Add >></button><br><br>
+                                    <button type="button" id="remove_role" class="btn btn-primary btn-xs" ><< Remove</button></div-->
+                                 <div class="col-lg-4 m-l-n"><span class="help-block m-b-none">Selected Roles</span>{{form.selected_role}}</div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-1 control-label">Password</label>
+
+                            <div class="col-sm-10">{{ form.password}}</div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-1 control-label">Confirm Password</label>
+
+                            <div class="col-sm-10">{{ form.confirm_password}}</div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-1">
+                                <button class="btn btn-primary" type="button" id="save">Save changes</button>
+                                <button class="btn btn-default" id='cancel' type="submit">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+<!-- Page-Level Scripts -->
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function()
+{
+    $('#cancel').on('click', function () {
+        window.location = '{% url 'account:user-list' %}';
+    });
+
+    $('#save').on('click', function () {
+
+        $("#id_selected_role option").each(function(){
+            $(this).attr('selected', true);
+        });
+
+        $( "#editUserForm" ).submit();
+    });
+
+    $('#add_role').on('click', function () {
+        var itemsToAdd = [];
+        $("#id_role option:selected").each(function () {
+            var optionVal = $(this).val();
+            var key = $(this).data('key');
+            if ($('#id_selected_role option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+            {
+                itemsToAdd.push($(this).removeAttr('selected'));
+            }
+        });
+        $("#id_selected_role").append(itemsToAdd);
+    });
+
+    $('#remove_role').on('click', function () {
+        var itemsToAdd = [];
+        $("#id_selected_role option:selected").each(function () {
+            var optionVal = $(this).val();
+            var key = $(this).data('key');
+            if ($('#id_role option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+            {
+                itemsToAdd.push($(this).removeAttr('selected'));
+            }
+        });
+        $("#id_role").append(itemsToAdd);
+    });
+
+    $('#id_role').on('dblclick', function () {
+        var itemsToAdd = [];
+        $("#id_role option:selected").each(function () {
+            var optionVal = $(this).val();
+            var key = $(this).data('key');
+            if ($('#id_selected_role option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+            {
+                itemsToAdd.push($(this).removeAttr('selected'));
+            }
+        });
+        $("#id_selected_role").append(itemsToAdd);
+    });
+
+    $('#id_selected_role').on('dblclick', function () {
+        var itemsToAdd = [];
+        $("#id_selected_role option:selected").each(function () {
+            var optionVal = $(this).val();
+            var key = $(this).data('key');
+            if ($('#id_role option[value="' + optionVal + '"][data-key="' + key + '"]').length == 0)
+            {
+                itemsToAdd.push($(this).removeAttr('selected'));
+            }
+        });
+        $("#id_role").append(itemsToAdd);
+    });
+});
+</script>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Login</title>
+	{% include "uiapp/core-styles.html" %}
+
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'uiapp/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+                <p class="logo-name">Kanga</p>
+                <img src="{% static 'uiapp\img\noun_4742_cc.svg' %}">
+            </div>
+            <p></p>
+            <div class="alert {{msg_level}}">{{msg}}</div>
+            {% if msg_level == "alert-danger" %}
+                <a class="btn btn-danger block full-width m-b" href="{% url 'help:contacts' %}">Contact Administrator</a>
+            {% else %}
+                <a class="btn btn-success block full-width m-b" href="{% url 'account:login' %}">Login</a>
+            {% endif %}
+            <p class="m-t"> <small>Kanga, Big Data Platform Lab &copy; 2015</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+
+
+</body>
+
+</html>

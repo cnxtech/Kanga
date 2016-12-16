@@ -1,0 +1,801 @@
+{
+    "items": [
+        {
+            "category": "input_streaming", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "input_fields", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "source", 
+                            "options": [
+                                {
+                                    "text": "REALTIME", 
+                                    "value": "REALTIME"
+                                }, 
+                                {
+                                    "text": "HISTORIC", 
+                                    "value": "HISTORIC"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "datetime", 
+                            "name": "from", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "datetime", 
+                            "name": "to", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "timestamp_fieldname", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "scenario", 
+                            "options": [
+                                {
+                                    "text": "ElasticSearch", 
+                                    "value": "ElasticSearch"
+                                }, 
+                                {
+                                    "text": "Kafka", 
+                                    "value": "Kafka"
+                                }
+                            ]
+                        }
+                    ], 
+                    "name": "passthrough", 
+                    "icon": "passthrough"
+                }
+            ], 
+            "label": "Input Streaming"
+        }, 
+        {
+            "category": "transformation", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "input_field_name", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "value", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "add_field", 
+                    "icon": "add_field"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "input_field_name", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "value", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "where", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "udpate_field", 
+                    "icon": "udpate_field"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "input_field_name", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "delimiter", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output_field_names", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "split", 
+                    "icon": "split"
+                }
+            ], 
+            "label": "Transformation"
+        }, 
+        {
+            "category": "filter", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "condition", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "where_clause", 
+                    "icon": "where_clause"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "event_type", 
+                            "options": [
+                                {
+                                    "text": "EVENT", 
+                                    "value": "EVENT"
+                                }, 
+                                {
+                                    "text": "STATIC", 
+                                    "value": "STATIC"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "last_tick", 
+                    "icon": "last_tick"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "event_type", 
+                            "options": [
+                                {
+                                    "text": "EVENT", 
+                                    "value": "EVENT"
+                                }, 
+                                {
+                                    "text": "STATIC", 
+                                    "value": "STATIC"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "first_tick", 
+                    "icon": "first_tick"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "fields", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "table", 
+                    "icon": "table"
+                }
+            ], 
+            "label": "Filter"
+        }, 
+        {
+            "category": "aggregation", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "input_field_name", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "average", 
+                    "icon": "average"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "sum", 
+                    "icon": "sum"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "count", 
+                    "icon": "count"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "min", 
+                    "icon": "min"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "max", 
+                    "icon": "max"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "functions", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "bucket", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_unit", 
+                            "options": [
+                                {
+                                    "text": "SECOND", 
+                                    "value": "SECOND"
+                                }, 
+                                {
+                                    "text": "UNIT", 
+                                    "value": "UNIT"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "bucket_build", 
+                            "options": [
+                                {
+                                    "text": "BUCKET_START", 
+                                    "value": "BUCKET_START"
+                                }, 
+                                {
+                                    "text": "BUCKET_END", 
+                                    "value": "BUCKET_END"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "dropdown", 
+                            "name": "window_type", 
+                            "options": [
+                                {
+                                    "text": "SLIDING", 
+                                    "value": "SLIDING"
+                                }, 
+                                {
+                                    "text": "BATCH", 
+                                    "value": "BATCH"
+                                }
+                            ]
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "group_by", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "output", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "calculate", 
+                    "icon": "calculate"
+                }
+            ], 
+            "label": "Aggregation"
+        }, 
+        {
+            "category": "join", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "source", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "leading_source", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "acceptable_secs_difference", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "join_by_time", 
+                    "icon": "join_by_time"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "source", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "join_type", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "leading_source", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "join_key", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "join", 
+                    "icon": "join"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "source", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "sorting_key", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "merge", 
+                    "icon": "merge"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "sorting_key", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "sort", 
+                    "icon": "sort"
+                }
+            ], 
+            "label": "Join, Merge & Sort"
+        }, 
+        {
+            "category": "sql", 
+            "processors": [
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "target_dns", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "target_table", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "target_fields", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "input_fields", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "insert_into_database", 
+                    "icon": "insert_into_database"
+                }, 
+                {
+                    "args": [
+                        {
+                            "type": "text", 
+                            "name": "source_dns", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "select_sql", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "from", 
+                            "options": []
+                        }, 
+                        {
+                            "type": "text", 
+                            "name": "to", 
+                            "options": []
+                        }
+                    ], 
+                    "name": "passthrough_from_database", 
+                    "icon": "passthrough_from_database"
+                }
+            ], 
+            "label": "SQL & Lookup"
+        }
+    ]
+}

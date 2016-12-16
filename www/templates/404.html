@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Role</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/externals/jsplumb/css/jsplumb.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/datapicker/datepicker3.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>404</h1>
+        <h3 class="font-bold">Page Not Found</h3>
+
+        <div class="error-desc">
+            Sorry, but the page you are looking for has note been found. Try checking the URL for error, then hit the refresh button on your browser or try found something else in our app.
+            <form class="form-inline m-t" role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search for page">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    <!-- body contents end -->
+    <div class="footer">
+        <div class="pull-right">
+            Kanga
+        </div>
+        <div>
+            <strong>Copyright</strong> Samsung Software Center R&D &copy; 2014-2015
+        </div>
+    </div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Streaming Query History</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-history"></i> Query History</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'monitor:index' %}">Job Monitor</a></li>
+                    <li class="active"><strong>Query History</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>Streaming query jobs
+                            <span id='ip-info' style="float: right;"><i class="fa fa-heartbeat"></i> {{IP}}</span>
+                        </h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table id="dataTables-topology" class="table  table-hover table-striped " width="100%">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Uptime</th>
+                                <th>Workers</th>
+                                <th>Executors</th>
+                                <th>Tasks</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+
+
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function() {
+        /*datatable initialization*/
+        $('#dataTables-topology').dataTable({
+            "ajax": {
+                "url": '{% url 'monitor:api-storm-topology-summary' %}',
+                "error": handleAjaxError
+            },
+            "columns": [
+                {"data": "name"},
+                {"data": "status"},
+                {"data": "uptime"},
+                {"data": "workersTotal"},
+                {"data": "executorsTotal"},
+                {"data": "tasksTotal"},
+            ],
+            language: {"search": "Search: "},
+        });
+    });
+    function handleAjaxError( xhr, textStatus, error ) {
+        if ( textStatus === 'timeout' ) {
+            alert( 'The server took too long to send the data.' );
+        }
+        else {
+            alert( 'An error occurred on the server. Please try again in a minute.' );
+        }
+    }
+</script>
+</body>
+</html>

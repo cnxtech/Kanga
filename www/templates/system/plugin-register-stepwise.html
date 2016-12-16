@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <title>Kanga | Plugins Register</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include "uiapp/core-styles.html" %}
+    <!-- dropzone -->
+    <link href="{% static 'uiapp/css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+
+
+</head>
+<body class="pace-done ">
+
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+
+        <!-- body -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-pencil-square-o"></i> Kanga Processor Plugins Registration</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li>System</li>
+                    <li>Plugins Manager</li>
+                    <li class="active"><strong>Register</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 animated fadeInRight">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>How to register plugins?</h3>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <ul class="timeline">
+                            <li>
+                                <div class="timeline-badge"><i class="fa fa-upload"></i>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <p><big class="text-muted">1st step</big>
+                                        </p>
+                                        <h4 class="timeline-title">Upload plugins</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>Simply drop your plugins file to upload (something.zip as zip format) containing library.xml, plugin jar file and help documents as md format in doc folder inside.
+                                        </p>
+                                        <a href="#" class="btn btn-sm btn-success"> Download example (base.zip)</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="timeline-inverted">
+                                <div class="timeline-badge warning"><i class="fa fa-search"></i>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <p><big class="text-muted">2nd step</big>
+                                        </p>
+                                        <h4 class="timeline-title">Verify uploaded file</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>It is required to verify your uploaded zip file, which will be unzipped and proved systematically right after the upload to go through whether the library.xml is matched with xml DTD and each processor meta information is well provided without any violation.
+                                            Secondly, it will be followed to see if necessary md files are located under doc folder well.
+                                        </p>
+                                        <a href="#" class="btn btn-sm btn-success"> Download xml DTD</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="timeline-badge danger"><i class="fa fa-check"></i>
+                                </div>
+                                <div class="timeline-panel">
+                                    <div class="timeline-heading">
+                                        <p><big class="text-muted">Final step</big>
+                                        </p>
+                                        <h4 class="timeline-title">Apply</h4>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>Once your file is proved, the final step is to click 'apply' button to register your plugins to Kanga. In this case, to be noted, previous version of plugins will be deleted automatically.
+                                            Meanwhile, you can always download previously registered plugins from 'plugins history' page whenever you want.
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+            </div>
+
+
+            <div class="col-lg-4  animated fadeInRight">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h3>Registration Progress
+                            <div class="ibox-tools">
+                                <a href="{% url 'system:plugins-register' %}"><button class="btn btn-primary" id="addpermission">Add New Plugins</button></a>
+                            </div>                            
+                        </h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="progress active m-b-sm">
+                            <div id='plugin-registration-progress-percent' style="width: 0%;" class="progress-bar"></div>
+                        </div>
+                        <h4 id='plugin-registration-progress-message'>Plugin registration completed in <strong>0%</strong>. Please upload your plugin file</h4>
+                        <dl class="dl-horizontal">
+                            <dt>Plugin File:</dt>  <dd id="plugin-filename"></dd>
+                            <dt>Verification:</dt> <dd id="plugin-verification-message"></dd>
+                            <dt>Registration:</dt> <dd id="plugin-registration-message"></dd>
+                            <dt>Version:</dt>      <dd id="plugin-version-info"></dd>                            
+                            <dt><a href="javascript:install_plugins()">NPM Install</a></dt>   <dd id="plugin-npm-install"></dd>
+                            <dt>Installation:</dt> <dd id="plugin-installation-message"></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 animated fadeInRight">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h3>Plugins File Upload</h3>
+                    </div>
+                    <div class="ibox-content">
+                        <form action="{% url 'system:upload' %}" class="dropzone" id="upload-zone" enctype="multipart/form-data">{% csrf_token %}</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var HOST = "{{ BASE_URL }}";
+</script>
+<script src="{% static 'uiapp/js/constants.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/externals//metisMenu/metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/sbadmin2/sb-admin-2.js' %}"></script>
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/externals/pace/pace.min.js' %}"></script>
+<!--DropZone-->
+<script src="{% static 'uiapp/js/plugins/dropzone/dropzone.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+<!-- Steps -->
+<script src="{% static 'uiapp/js/plugins/staps/jquery.steps.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/validate/jquery.validate.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/js-cookie/js.cookie.js' %}"></script>
+
+<script>
+var plugins_zip_filename = '';
+var full_path_zip_filename = '';
+var full_path_unzip_folder = '';
+
+
+$(document).ready(function() {
+
+    Dropzone.options.uploadZone = {
+        acceptedFiles: ".zip",
+        init: function() {
+            this.on('addedfile',function(file) {
+                var file_split = (file.name).split('.');
+                var extension = file_split[file_split.length - 1];
+                if (extension != "zip")
+                    this.removeFile(file);
+                <!--toastr.success(file);-->
+            });
+            this.on('complete', function(file) {
+                var result = JSON.parse(file.xhr.responseText);
+                if (result.status=='success'){
+                    $('#plugin-registration-progress-percent').css('width','30%');
+                    $('#plugin-registration-progress-message').html('Plugin registration completed in <strong>30%</strong>. Please verify your uploaded file');
+                    $('#plugin-filename').html(result.zip_filename);
+                    $('#plugin-verification-message').html('Please verify to click <a href="javascript:verify_plugins()">here</a>');
+                    $('#plugin-registration-message').html('');
+                    $('#plugin-version-info').html('');
+                    toastr.success(result.zip_filename,'');
+                    console.log(result);
+                    full_path_zip_filename = result.full_path_zip_filename;
+                    plugins_zip_filename = result.zip_filename;
+                }else{
+                    toastr.error(result.error);
+                }
+                <!--console.log(result);-->
+                <!--console.log(file);-->
+            });
+        }
+    }
+
+});
+
+
+function verify_plugins(){
+    var csrftoken = Cookies.get('csrftoken');
+    console.log('ajax verify_plugins');
+    $('#plugin-verification-message').html('<i class="fa fa-spinner fa-pulse"></i> It is being verified.');
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'system:api-verify-plugins' %}",
+        data: {
+            full_path_zip_filename: full_path_zip_filename,
+            zip_filename: plugins_zip_filename
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function (b) {
+            if (b && b.status=='success') {
+                full_path_unzip_folder=b.tmp_target_path;
+                $('#plugin-verification-message').html('<i class="fa fa-check"></i> Successfully verified. Please proceed with the final step to click <a href="javascript:register_plugins()">here</a>');
+                $('#plugin-registration-progress-percent').css('width','60%');
+                $('#plugin-registration-progress-message').html('Plugin registration completed in <strong>60%</strong>. Please register the plugins');
+            }else{
+                $('#plugin-verification-message').html('<i class="fa fa-exclamation-triangle"></i> Failed in verification. '+b.error);
+            }
+        },
+        error: function (e) {
+            console.log(e)
+            toastr.warning('Failed to verify plugin, please try again later', '' );//+ e.responseText);
+        }
+    });
+}
+
+function register_plugins(){
+    $('#plugin-verification-message').html('<i class="fa fa-check"></i> Successfully verified.');
+    var csrftoken = Cookies.get('csrftoken');
+    console.log('ajax register_plugins');
+    $('#plugin-registration-message').html('<i class="fa fa-spinner fa-pulse"></i> It is being registered.');
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'system:api-register-plugins' %}",
+        data: {
+            full_path_unzip_folder: full_path_unzip_folder,
+            full_path_zip_filename: full_path_zip_filename,
+            zip_filename: plugins_zip_filename
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function (b) {
+            if (b && b.status=='success') {
+                full_path_unzip_folder=b.tmp_target_path;
+                $('#plugin-registration-message').html('<i class="fa fa-check"></i> Successfully registered.');
+                $('#plugin-registration-progress-percent').css('width','100%');
+                $('#plugin-registration-progress-message').html('Plugin registration completed successfully.');
+                $('#plugin-version-info').html(b.version);
+            }else{
+                $('#plugin-registration-message').html('<i class="fa fa-exclamation-triangle"></i> Failed in registration. '+b.error);
+            }
+        },
+        error: function (e) {
+            console.log(e)
+            toastr.warning('Failed to register plugin, please try again later', '' );//+ e.responseText);
+        }
+    });
+}
+
+function install_plugins(){
+    //$('#plugin-registration-message').html('<i class="fa fa-check"></i> Successfully registered.');
+    var csrftoken = Cookies.get('csrftoken');
+    console.log('ajax install_plugins');
+    $('#plugin-installation-message').html('<i class="fa fa-spinner fa-pulse"></i> It is being installed.');
+    $('#plugin-registration-progress-percent').css('width','0%');
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'system:api-install-plugins' %}",
+        data: {
+            full_path_unzip_folder: full_path_unzip_folder,
+            full_path_zip_filename: full_path_zip_filename,
+            zip_filename: plugins_zip_filename
+        },
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function (b) {
+            if (b && b.status=='success') {
+                full_path_unzip_folder=b.tmp_target_path;
+                $('#plugin-installation-message').html('<i class="fa fa-check"></i> Successfully installed.');
+                $('#plugin-registration-progress-percent').css('width','100%');
+                $('#plugin-registration-progress-message').html('Plugin installation completed successfully.');                
+            }else{
+                $('#plugin-installation-message').html('<i class="fa fa-exclamation-triangle"></i> Failed in installation. '+b.error);
+            }
+        },
+        error: function (e) {
+            console.log(e)
+            toastr.warning('Failed to save workflow, please try again later', '' );//+ e.responseText);
+        }
+    });
+}
+
+</script>
+
+
+
+</html>

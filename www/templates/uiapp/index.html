@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <title>Kanga - Distributed Realtime Analytics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include "uiapp/core-styles.html" %}
+
+</head>
+
+<body class="pace-done ">
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body -->
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="jumbotron">
+                        <h1>Get Started</h1>
+                        <p>Welcome to Kanga Studio. <strong>:)</strong></p>
+                        <p>
+                            Kanga Studio is a toolset designed to support both real time and historical analytics from almost any type of structured and unstructured data.
+                            Powered by complex event processors and distributed search indexes, Kanga Studio accelerates the analytics query building process through its user friendly and interactive query building environment.
+
+                        </p>
+
+                        <p><a href="{% url 'help:tutorials' %}" class="btn btn-info btn-lg" role="button">Go to Tutorial</a></p>
+                        <p><a href="{% url 'help:contacts' %}" class="btn btn-info btn-lg" role="button">Contact to Us</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- body contents end -->
+            <div class="footer">
+                <div class="pull-right">
+                    Kanga
+                </div>
+                <div>
+                    <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var HOST = "{{ BASE_URL }}"
+</script>
+<script src="{% static 'uiapp/js/constants.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/metisMenu/metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/externals/sbadmin2/sb-admin-2.js' %}"></script>
+<!-- Custom and plugin javascript -->
+
+<script src="{% static 'uiapp/externals/pace/pace.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+
+<script>
+$(document).ready(function() {
+
+});
+    </script>
+</html>

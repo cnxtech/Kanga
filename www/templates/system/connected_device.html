@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Connected Devices</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/font-flaticon/flaticon.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/toastr/toastr.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/gritter/jquery.gritter.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static 'uiapp/externals/jsplumb/css/jsplumb.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/bootstrap-datetimepicker/bootstrap-datetimepicker.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+    <!-- icheck -->
+    <link href="{% static 'uiapp/css/plugins/iCheck/custom.css' %}" rel="stylesheet">
+    <!-- dropzone -->
+    <link href="{% static 'uiapp/css/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+    <!-- My CSS -->
+    <!--<link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">-->
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/dataTables/select.dataTables.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/plugins/dataTables/jquery.dataTables.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-link"></i> Connected Devices</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'system:index' %}">System</a></li>
+                    <li class="active"><strong>Connected Devices</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="devices-list" class="col-lg-6 animated fadeInRight">
+                <div class="ibox-title">
+                    <h3>
+                        Connected Devices List
+                        <div class="ibox-tools">
+                            <button class="btn btn-success btn-xs" id="refresh_device"><i class="fa fa-refresh"></i> Refresh</button>
+                            <button class="btn btn-primary btn-xs" id="new_device"><i class="fa fa-plus"></i> Add Devices</button>
+                            <button class="btn btn-danger btn-xs" id="delete_device"><i class="fa fa-minus"></i> Delete Devices</button>
+                        </div>
+                    </h3>
+                </div>
+                <div class="ibox-content">
+                    <table id="dataTables-devices" class="table  table-hover table-striped " width="100%">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll" name="selectAll"></th>
+                            <th>IP</th>
+                            <th>Device type</th>
+                            <th>Status</th>
+                            <th>CPU (%)</th>
+                            <th>Free Memory (MB)</th>
+                            <th>Library version</th>
+                            <th>Action</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-6 animated fadeInRight">
+                <div class="ibox-title">
+                    <h3>
+                        Deploy Library/Topology Files
+                        <div class="ibox-tools">
+                            <button class="btn btn-primary btn-xs" id="upload-file" style="display:none"><i class="fa fa-upload"></i> Deploy Files</button>
+                            <button class="btn btn-danger btn-xs" id="clear-file" style="display:none"><i class="fa fa-times"></i> Clear Files</button>
+                        </div>
+                    </h3>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="file-type-select">File type :</label>
+                            <div class="col-md-10">
+                                <select data-placeholder="Choose a File type..." id="file-type-select" name="file-type" required>
+                                    <option value=""> </option>
+                                    <option value="library"> Library</option>
+                                    <option value="etc"> Etc File</option>
+                                </select>
+                                <span class="help-block">Please choose file type for deploy.</span>
+                            </div>
+                            <div id="input-path" style="display:none">
+                                <label class="col-md-2 control-label" for="upload-dir">Deploy path :</label>
+                                <div class="col-md-10">
+                                    <input id="upload-dir" type="text" placeholder="/home/kanga/supervisor/workspace" name="upload-dir" class="form-control input-md" required>
+                                    <span class="help-block">Please provide directory where the file is stored.(input directory wiil be made under /home/kanga/supervisor/workspace)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form action="#" method="post" class="dropzone" id="upload-form" enctype="multipart/form-data" style="display:none">{% csrf_token %}
+                        <div class="fallback">
+                            <input name="uploadFile" id="uploadFile" type="file" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+<!-- Bootbox -->
+<script src="{% static 'uiapp/externals/bootbox/bootbox.min.js' %}"></script>
+<!-- Chosen -->
+<script src="{% static 'uiapp/externals/chosen/chosen.jquery.js' %}"></script>
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.select.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+<!--DropZone-->
+<script src="{% static 'uiapp/js/plugins/dropzone/dropzone.js' %}"></script>
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+<!-- my js -->
+<script src="{% static 'uiapp/js/own.scripts.js' %}"></script>
+<script src="{% static 'uiapp/js/helper.js' %}"></script>
+<script src="{% static 'uiapp/js/String.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+var device_list_url = "{% url 'system:get-connected-device-list' %}";
+var device_add_url = "{% url 'system:add-connected-device' %}";
+var device_delete_url = "{% url 'system:delete-connected-device' %}";
+var table;
+var mydropzone;
+
+$(document).ready(function() {
+
+    $("#file-type-select").chosen();
+
+    /*datatable initialization*/
+     table = $('#dataTables-devices').DataTable({
+        ajax: {
+            "type" : "GET",
+            "url": "{% url 'system:api-get-connected-device-status' %}" //Connect device status Restful API call URL(Supervisor)
+        },
+        columnDefs: [
+            {
+                targets: 0,
+                orderable: false,
+                searchable : false,
+                className: "dt-center",
+                render : function(data, type, full, meta){
+                    return '<input type="checkbox">';
+                }
+            }
+        ],
+        select : {
+            style: 'multi',
+            selector: 'td>input'
+        },
+        columns: [
+            {"data": "select"},
+            {"data": "ip"},
+            {"data": "device_type"},
+            {"data": "status"},
+            {"data": "cpu"},
+            {"data": "memory"},
+            {"data": "lib_version"},
+            {"data": "action"},
+            {"data": "description"}
+        ],
+        order: [[ 3, "desc" ]],
+        processing: true,
+        language: {
+            "search": "Search: ",
+            "loadingRecords": "",
+            "processing": "<span><i class='fa fa-spinner fa-pulse fa-4x'></i></span>"
+        },
+    });
+
+    /*command cell click event to view detail*/
+
+
+    $('#dataTables-devices thead').on('click', '#selectAll', function(e){
+        if($('td input[type="checkbox"]').length > $('td input[type="checkbox"]:checked').length){
+            $('td input[type="checkbox"]:not(:checked)').trigger('click');
+        }
+        else{
+            $('tbody tr td input').trigger('click');
+        }
+        e.stopPropagation();
+    });
+
+    $('#dataTables-devices tbody').on('click', 'input[type="checkbox"]', function(e){
+        if($('td input[type="checkbox"]').length == $('td input[type="checkbox"]:checked').length){
+            $('input#selectAll').prop('checked' , true);
+        }
+        else {
+            $('input#selectAll').prop('checked' , false);
+        }
+        e.stopPropagation();
+    });
+
+    $("#new_device").click(function(){
+        bootbox_add_device();
+    });
+
+    $("#delete_device").click(function() {
+        bootbox_delete_device();
+    });
+
+    $("#refresh_device").click(function(){
+        table.ajax.reload();
+    });
+
+
+
+    Dropzone.options.uploadForm = {
+        acceptedFiles: ".zip,.json",
+        autoProcessQueue:false,
+        init: function() {
+            this.on('addedfile',function(file) {
+                var removeButton = Dropzone.createElement("<button class='btn btn-danger btn-xs'><i class='fa fa-times'></i></button>");
+                var _this = this;
+                removeButton.addEventListener("click", function(e) {
+                    // Make sure the button click doesn't submit the form:
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Remove the file preview.
+                    _this.removeFile(file);
+
+                });
+
+                // Add the button to the file preview element.
+                file.previewElement.appendChild(removeButton);
+
+                toastr.success(file.name + ' ready to upload','Ok');
+            });
+            this.on('complete', function(file) {
+
+            });
+        }
+    }
+
+    Dropzone.autoDiscover = false;
+    mydropzone = new Dropzone("#upload-form");
+
+    $("#clear-file").click(function(){
+       mydropzone.removeAllFiles(true);
+    });
+
+    $("#upload-file").click(function(){
+        var select_device = table.rows( { selected: true } ).data();
+
+        if(select_device.length == 0){
+            toastr.warning('Please choose devices for deploy.','No selected device for deploy');
+        }
+        else {
+
+            var data = new FormData();
+            for( var i= 0; i< mydropzone.getAcceptedFiles().length; i++){
+                data.append('plugin_file', mydropzone.getAcceptedFiles()[i]);
+            }
+
+            var type = $("#file-type-select").val();
+            var path = $("#upload-dir").val();
+
+            for(var i = 0; i< select_device.length; i++){
+                var ip;
+                if(select_device[i].status =='up'){
+                    ip = select_device[i].ip.split(">")[1].split("<")[0];
+                }
+                else{
+                    ip = select_device[i].ip;
+                }
+                //ajax_deploy_file(ip ,data);
+                ajax_pass_download_url(ip);
+            }
+
+        }
+    });
+
+    $("#file-type-select").change(function(){
+        if( $("#file-type-select").val() == "library"){
+            $("#upload-form").hide();
+            $("#input-path").hide();
+            $("#clear-file").hide();
+            $("#upload-file").show();
+        }
+
+        else if($("#file-type-select").val() == "etc"){
+            $("#clear-file").show();
+            $("#upload-file").show();
+            $("#input-path").show();
+            $("#upload-form").show();
+        }
+
+    });
+
+});
+
+function ajax_pass_download_url(ip){
+    var url = "{% url 'system:api-remote-download-library' %}";
+
+    var plugin_url = "http://" + location.host  + url;
+    console.log(plugin_url);
+    $.ajax({
+        type: 'POST',
+        url: 'http://' + ip +':8888/plugin/',
+        data: {
+            plugin_url: plugin_url
+        },
+        timeout: 30000,
+        success: function (json) {
+            var success_msg = 'Kanga successfully deploy library to '+ ip;
+            var error_msg = 'File deploy failed into ' + ip;
+            if (json['result']=="success") {
+                toastr.success(success_msg,'Success');
+            }
+            else {
+                toastr.error(error_msg,'Failed');
+            }
+            table.ajax.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        },
+        dataType:"json"
+    });
+
+}
+
+function ajax_deploy_file(ip, postdata){
+    $.ajax({
+        type: 'POST',
+        url: 'http://' + ip +':8888/plugin/',
+        data : postdata,
+        processData: false,
+        contentType: false,
+        success: function(json){
+            var success_msg = 'Kanga successfully deploy the file to '+ ip;
+            var error_msg = 'File deploy failed into ' + ip;
+            console.log(json);
+            if (json['result']=="success") {
+                toastr.success(success_msg, 'Success');
+                mydropzone.removeAllFiles(true);
+            }
+            else {
+                toastr.error(error_msg + '\n' + json['description'], 'Failed');
+            }
+            table.ajax.reload();
+        },
+        error: function (jqXHR, textStatus, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        }
+    });
+}
+
+
+function bootbox_add_device(){
+    bootbox.setDefaults("animate", true);
+    bootbox.dialog({
+        title: "Add connect device",
+        message:
+            '<div class="row">  ' +
+            '<div class="col-md-12"> ' +
+            '<form class="form-horizontal"> ' +
+            '<div class="form-group"> ' +
+            '<label class="col-md-2 control-label" for="bootbox-devicetype-select">Device type: </label> ' +
+            '<div class="col-md-10"> ' +
+            '<select data-placeholder="Choose a device type..." id="bootbox-devicetype-select" name="bootbox-devicetype-select" required> ' +
+            '<option value=""> </option>' +
+            '<option value="ARTIK5">ARTIK 5</option>'+
+            '<option value="ARTIK7">ARTIK 7</option>'+
+            '<option value="ARTIK10">ARTIK 10</option>'+
+            '<option value="Raspberry Pi2">Raspberry Pi2</option>'+
+            '<option value="Raspberry Pi3">Raspberry Pi3</option>'+
+            '<option value="ODROID-XU4">Odroid-XU4</option>'+
+            '<option value="Linux-PC">Linux PC</option>'+
+            '<option value="Windows-PC"> Windows PC</option>'+
+            '</select>'+
+            '<span class="help-block">Please choose device type</span> </div>' +
+            '<label class="col-md-2 control-label" for="bootbox-ip">IP: </label> ' +
+            '<div class="col-md-10"> ' +
+            '<input id="bootbox-ip" type="text" placeholder="127.0.0.1" name="bootbox-ip" class="form-control input-md" required> ' +
+            '<span class="help-block">Please provide device IP address.</span> </div> ' +
+
+            '<label class="col-md-2 control-label" for="bootbox-hostname">Hostname: </label> ' +
+            '<div class="col-md-10"> ' +
+            '<input id="bootbox-hostname" type="text" placeholder="localhost" class="form-control input-md"> ' +
+            '<span class="help-block">Please provide device\'s hostname.</span> </div> ' +
+
+            '<label class="col-md-2 control-label" for="bootbox-description">Description: </label> ' +
+            '<div class="col-md-10"> ' +
+            '<input id="bootbox-description" type="text" placeholder="description" class="form-control input-md"> ' +
+            '<span class="help-block">Please provide description.(optional)</span> </div> ' +
+
+            '</div> </form> </div> </div>' +
+            '<script>$("#bootbox-devicetype-select").chosen(); <\/script>',
+        buttons: {
+            success: {
+                label: "Submit",
+                className: "btn-success",
+                callback: function () {
+
+                    var device_type = $("#bootbox-devicetype-select").val();
+                    var ip = $("#bootbox-ip").val();
+                    var hostname = $("#bootbox-hostname").val();
+                    var description = $("#bootbox-description").val();
+                    ajax_set_connectDevice(device_type,ip, hostname, description);
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                className: "btn-cancel"
+            }
+        },
+        className : "add_device_modal"
+    });
+}
+
+function bootbox_delete_device(){
+    bootbox.setDefaults("animate", true);
+    bootbox.dialog({
+        title: "Delete connect devices",
+        message:
+            '<div class="row"> ' +
+            '<div class="col-md-12"> ' +
+            '<h4> Selected devices wiil be deleted.<br>Are you sure?</h4>'+
+            '</div> </div>',
+        buttons: {
+            success: {
+                label: "Ok",
+                className: "btn-success",
+                callback: function () {
+
+                    var select_device = table.rows( { selected: true } ).data();
+                    if(select_device.length == 0){
+                        toastr.warning('Please choose devices for delete.','No selected device for delete');
+                    }
+                    else {
+                        var ip_arr = [];
+                        for(var i = 0; i< select_device.length; i++){
+                            if(select_device[i].status =='up'){
+                                ip_arr.push(select_device[i].ip.split(">")[1].split("<")[0]);
+                            }
+                            else{
+                                ip_arr.push(select_device[i].ip);
+                            }
+                        }
+                        ajax_delete_device(ip_arr);
+                    }
+                }
+            },
+            cancel: {
+                label: "Cancel",
+                className: "btn-cancel"
+            }
+        },
+        className : "delete_device_modal"
+    });
+}
+
+function ajax_set_connectDevice(device_type, ip, hostname, description){
+    $.ajax({
+        type: 'POST',
+        url: device_add_url,
+        data: {
+            device_type: device_type,
+            ip: ip,
+            hostname: hostname,
+            description: description
+        },
+        success: function (json) {
+            if (json.status=='ok'){
+                table.ajax.reload();
+                toastr.success(json.message,json.status);
+            }
+            else {
+                toastr.error(json.message,'Failed');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        },
+        dataType:"json"
+    });
+}
+
+function ajax_delete_device(ip_arr){
+    $.ajax({
+        type: 'POST',
+        url: device_delete_url,
+        data: {
+            ip_arr: ip_arr
+        },
+        success: function (json) {
+            if (json.status=='ok'){
+                table.ajax.reload();
+                toastr.success(json.message,json.status);
+            }
+            else {
+                toastr.error(json.message,'Failed');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        },
+        dataType:"json"
+    });
+}
+
+function ajax_npm_install(ip){
+    $.ajax({
+        type: 'POST',
+        url: 'http://' + ip +':8888/plugin/npm/',
+        success: function (json) {
+            var success_msg = 'npm install successfully into '+ ip;
+            var error_msg = 'npm install failed into ' + ip;
+            if (json['result']=="success") {
+                table.ajax.reload();
+                toastr.success(json.description + ' into'+ ip,'Success');
+            }
+            else {
+                toastr.error(json.description + ' into'+ ip,'Failed');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(thrownError,'Failed');
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        },
+        dataType:"json"
+    });
+}
+</script>
+</body>
+</html>

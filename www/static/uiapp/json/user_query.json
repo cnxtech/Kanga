@@ -1,0 +1,47 @@
+{
+    "id":"AP-00001",
+    "name":"My Query",
+    "user":"doddy",
+    "created":"20150218144700",
+    "updated":"20150218144700",
+    "status":"active",
+		"processors":
+		[
+            {
+                "id":"processor1",
+				"type":"passthrough",
+				"args":
+				[
+					{
+						"name":"fields",
+						"value":"ABCDEF"
+					},
+					{
+						"name":"source",
+						"value":"database"
+					}
+				],
+                "positionX":30,
+                "positionY":50
+			},
+			{
+                "id":"processor2",
+				"type":"add_field",
+				"args":
+				[
+					{
+						"name":"field_name",
+						"value":"my field"
+					}
+				]
+			}
+		],
+        "connections":
+        [
+            {
+                "source_id":"processor1",
+                "target_id":"processor2"
+            }
+        ]
+	}
+}

@@ -1,0 +1,173 @@
+import networkx as nx
+import yaml
+import base64
+import os
+from Cheetah.Template import Template
+from help.models import Command
+from jsmin import jsmin
+
+
+def attach_edges(query):
+    edges = dict()
+    edges['ordered'] = dict()
+    edges['reverse'] = dict()
+    edges['list'] = list()
+    for connection in query['connections']:
+        if connection['pageSourceId'] in edges['ordered'].keys():
+            edges['ordered'][connection['pageSourceId']].append(connection['pageTargetId'])
+        else:
+            edges['ordered'][connection['pageSourceId']] = [connection['pageTargetId']]
+        if connection['pageTargetId'] in edges['reverse'].keys():
+            edges['reverse'][connection['pageTargetId']].append(connection['pageSourceId'])
+        else:
+            edges['reverse'][connection['pageTargetId']] = [connection['pageSourceId']]
+        edge = (connection['pageSourceId'],connection['pageTargetId'])
+        edges['list'].append(edge)
+    query['edges'] = edges
+
+def validate_graph(query):
+    edges = query['edges']['list']
+    G = nx.DiGraph(edges)
+    if not nx.is_weakly_connected(G):
+        raise Exception('Your query is not connected fully. Please check if any required link is not connected')
+    if not nx.is_directed_acyclic_graph(G):
+        raise Exception('Directed acyclic graph is only accepted. Please check if your graph is cyclic. Typically graph needs to have one (or many) source and one (or many) sink')
+    is_node_type_violated(query)
+
+def decode64(query):
+    for node in query['nodes']:
+        if not 'argData' in node:
+            raise Exception('Please insert argument in '+node['blockId'])
+        node['argData'] = yaml.safe_load(base64.b64decode(node['argData']))
+    return query
+
+def find_shuffle_groups(query, child_node_name):
+    shuffle_groups = ''
+    if child_node_name in query['edges']['reverse'].keys():
+        for sg in query['edges']['reverse'][child_node_name]:
+            shuffle_groups+='.shuffleGrouping("'+sg+'")'
+    return shuffle_groups
+
+def is_node_type_violated(query):
+    for node in query['nodes']:
+        if node['type']=="SOURCE":
+            if node['blockId'] in query['edges']['reverse']:
+                raise Exception(node['blockId']+'is SOURCE type which should not have any parent node')
+            if not node['blockId'] in query['edges']['ordered']:
+                raise Exception(node['blockId']+' is SOURCE type which should have at least any child node')
+        if node['type']=="SINK":
+            if not node['blockId'] in query['edges']['reverse']:
+                raise Exception(node['blockId']+'is SINK type which should have at least any parent node')
+            if node['blockId'] in query['edges']['ordered']:
+                raise Exception(node['blockId']+' is SINK type which should be a final node with no child node')
+        if node['type']=="NORMAL":
+            if not node['blockId'] in query['edges']['reverse']:
+                raise Exception(node['blockId']+'is NORMAL type which should have at least any parent node')
+            if not node['blockId'] in query['edges']['ordered']:
+                raise Exception(node['blockId']+' is NORMAL type which should have at least any child node')
+        if node['type']=="JOIN":
+            if not node['blockId'] in query['edges']['reverse'] or query['edges']['reverse'][node['blockId']].__len__ < 2 :
+                raise Exception(node['blockId']+' is JOIN type which should have at least more than 2 parent nodes')
+            if not node['blockId'] in query['edges']['ordered']:
+                raise Exception(node['blockId']+' is JOIN type which should have at least any child node')
+
+
+def attach_template(query):
+    for node in query['nodes']:
+        snippet = Command.objects.values_list('node_type','bolt_name').filter(command=node['nodetype'])
+        node['type'] = snippet[0][0]
+        node['bolt_name'] = snippet[0][1]
+
+def to_java_code(query):
+    template = """package kanga.cep.storm.users;
+
+import java.util.HashMap;
+import backtype.storm.Config;
+import backtype.storm.StormSubmitter;
+import backtype.storm.generated.AlreadyAliveException;
+import backtype.storm.generated.InvalidTopologyException;
+import backtype.storm.topology.TopologyBuilder;
+import backtype.storm.topology.IRichSpout;
+import net.minidev.json.*;
+
+import com.sec.kanga.bolt.common.*;
+import com.sec.kanga.bolt.filter.*;
+import com.sec.kanga.spout.*;
+import com.sec.kanga.bolt.sink.*;
+import com.sec.kanga.bolt.sample.*;
+import com.sec.kanga.bolt.transform.*;
+import com.sec.kanga.bolt.common.utils.*;
+import com.sec.kanga.bolt.aggregate.*;
+import com.sec.kanga.bolt.TopologyEntryBuilder;
+
+public class $topology_name {
+
+    public static void main(String[] args) throws Exception {
+
+        String TOPOLOGY_NAME = "$topology_name";
+        TopologyBuilder topologyBuilder = new TopologyBuilder();
+        TopologyEntryBuilder entryBuilder = new TopologyEntryBuilder();
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+
+$commands
+
+
+        Config conf = new Config();
+        conf.registerSerialization(JSONArray.class);
+        conf.setDebug(false);
+        conf.setNumWorkers(1);
+
+        System.out.println("About to submit topology : " + TOPOLOGY_NAME);
+        StormSubmitter.submitTopology(TOPOLOGY_NAME, conf, topologyBuilder.createTopology());
+    }
+
+}"""
+
+
+
+    commands = ''
+    node_names = list()
+    for node in query['nodes']:
+        snippet = '\tparamMap = new HashMap<String, String>();\n'
+        args = dict()
+        for field in node['argData']:
+            if not 'value' in field or not field['value']:
+                if field['is_mandatory'].__len__() > 0:
+                    raise Exception(field['name']+' of '+node['blockId']+' needs input value')
+                else:
+                    field['value'] = ''
+            if field['name'] == 'script':
+                field['value'] =  jsmin(field['value'], quote_chars="'\"`")
+                field['value'] = field['value'].replace("\n","; ").replace('"','\\"')
+            else:
+                field['value'] = field['value'].replace("\n"," ").replace('"','\\"')
+            snippet+='\tparamMap.put("'+field['name']+'", "'+field['value']+'");\n'
+        args['class_name']= node['bolt_name']
+        args['node_name']=node['blockId']
+        args['shuffle_groups'] = find_shuffle_groups(query, node['blockId'])
+        if args['shuffle_groups']=="":
+            snippet+='\tIRichSpout spout_$node_name = entryBuilder.createSpout("$class_name", paramMap);\n'
+            snippet+='\ttopologyBuilder.setSpout("$node_name", spout_$node_name, 1);\n'
+        else:
+            snippet+='\tKangaBolt bolt_$node_name = entryBuilder.createBolt("$class_name", paramMap);\n'
+            snippet+='\ttopologyBuilder.setBolt("$node_name", bolt_$node_name, 1)$shuffle_groups;\n'
+        commands+=str(Template(str(snippet), searchList=[args]))+'\n'
+        node_names.append(node['blockId'])
+    name_space = {'topology_name': query['topology_name'],
+                 'commands': commands}
+    code = Template(template, searchList=[name_space])
+    return str(code)
+
+
+def write_code(filename,code):
+    filename = os.path.join(
+                os.path.dirname(__file__), 'builder/tmp/'+filename
+               )
+    try:
+        with open(filename, 'w+') as f:
+            for line in code.split('\n'):
+                f.write(line.rstrip()+'\n')
+            f.close()
+        # print (code, file=filename)
+    except Exception as e:
+        raise Exception('file write failed. detailed error is '+str(e))

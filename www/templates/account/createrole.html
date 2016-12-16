@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>INSPINIA | Register</title>
+
+    <link href="{{ STATIC_PREFIX }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/animate.css" rel="stylesheet">
+    <link href="{{ STATIC_PREFIX }}css/style.css" rel="stylesheet">
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+				$.ajax({
+					async: true,
+					"url": '{% url 'account:fetchAllPermission' %}',
+					success: function(data)
+					{
+						jQuery.each(data, function(i, val) {
+							$("#permission_list").append('<option name='+val.key+' value='+val.key+'>'+val.value+'</option>');
+						});
+					}
+				})
+				$.ajax({
+					async: true,
+					"url": '{% url 'account:fetchAllRole' %}',
+					success: function(data)
+					{
+						jQuery.each(data, function(i, val) {
+							$("#role_list").append('<option name='+val.value+' value='+val.value+'>'+val.value+'</option>');
+						});
+					}
+				})
+			})
+	</script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">ATLASP</h1>
+
+            </div>
+            <h3>Create Role</h3>
+            
+            <form class="m-t" role="form" id="createUserForm" action="/account/createrole" method="post">{% csrf_token %}
+			
+									{% if form.errors %}
+									{% for field in form %}
+										{% for error in field.errors %}
+											<div>
+												<strong>{{ error|escape }}</strong>
+											</div>
+										{% endfor %}
+									{% endfor %}
+									{% for error in form.non_field_errors %}
+										<div class="alert alert-error">
+											<strong>{{ error|escape }}</strong>
+										</div>
+									{% endfor %}
+								{% endif %}
+
+				
+                <div class="form-group">
+					
+                    <input type="text" id="role_name" name="role_name" class="form-control" placeholder="Role Name" required="true">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="restrict_search_timerange" name="restrict_search_timerange" class="form-control" placeholder="Restrict search timerange (Default  " >
+                </div>
+                <div class="form-group">
+                    <input type="text" id="userlevel_concurrent_searchjobs_limit" name="userlevel_concurrent_searchjobs_limit" class="form-control" placeholder="Userlevel concurrent searchjobs limit" >
+                </div>
+				 <div class="form-group">
+                    <input type="text" id="userlevel_concurrent_realtime_searchjobs_limit" name="userlevel_concurrent_realtime_searchjobs_limit" class="form-control" placeholder="Userlevel concurrent realtime searchjobs limit" >
+                </div>
+				 <div class="form-group">
+                    <input type="text" id="rolelevel_concurrent_searchjobs_limit" name="rolelevel_concurrent_searchjobs_limit" class="form-control" placeholder="Rolelevel concurrent searchjobs limit ">
+                </div>
+				 <div class="form-group">
+                    <input type="text" id="rolelevel_concurrent_realtime_searchjobs_limit " name="rolelevel_concurrent_realtime_searchjobs_limit" class="form-control" placeholder="Rolelevel concurrent realtime searchjobs limit " >
+                </div>
+				 <div class="form-group">
+                    <input type="text" id="selected_indexes" name="selected_indexes" class="form-control" placeholder="Selected indexes " >
+                </div>
+				 <div class="form-group">
+                    <input type="text" id="selected_search_indexes" name="selected_search_indexes" class="form-control" placeholder="Selected search indexes">
+                </div>
+				 <div class="form-group">
+				    <label>Permission </label><p><select id="permission_list" name="permission_list"  multiple='multiple'></select></p>
+                </div>
+                <div class="form-group">
+				    <label>Inheritance Role </label><p><select id="role_list" name="role_list"></select></p>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b" >Register</button>
+
+    
+               
+            </form>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+</body>
+
+</html>

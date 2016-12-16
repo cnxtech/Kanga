@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Role</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <link href="{% static 'uiapp/externals/jsplumb/css/jsplumb.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'uiapp/externals/chosen/chosen.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/nouslider/jquery.nouislider.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/datapicker/datepicker3.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/iCheck/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/externals/ionRangeSlider/css/ion.rangeSlider.skinFlat.css' %}" rel="stylesheet">
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="pace-done ">
+
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <div class="row wrapper border-bottom white-bg page-heading"><h2>Permission Issue </h2></div>
+        <!-- body contents start -->
+
+         <div class="row wrapper wrapper-content animated fadeInRight">
+
+             <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h3>{{user.get_username }}, You don't have permission to change/modify this entity. </h3>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Software Center R&D &copy; 2014-2015
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+</body>
+</html>

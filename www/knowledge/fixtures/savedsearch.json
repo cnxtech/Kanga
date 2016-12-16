@@ -1,0 +1,78 @@
+[
+{
+    "fields": {
+        "scheduled": false,
+        "scheduled_time": "",
+        "search": "monitoring_metrics,zookeeper",
+        "user_id": 3,
+        "description": "This is new query",
+        "cron_schedule": "",
+        "created": "2015-05-27T01:29:54.113Z",
+        "selected_fields": "",
+        "enabled": false,
+        "updated": "2015-05-27T05:46:28.192Z",
+        "dsl": "{\n\t\"query\": {\n\t\t\"bool\": {\n\t\t\t\"must\": [\n\t\t\t\t{\n\t\t\t\t\t\"term\": {\n\t\t\t\t\t\t\"zookeeper.node\": \"ssd\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"must_not\": [],\n\t\t\t\"should\": []\n\t\t}\n\t},\n\t\"from\": 0,\n\t\"size\": 50,\n\t\"sort\": [],\n\t\"facets\": {}\n}",
+        "dsl_vars": "",
+        "name": "Z2_test2"
+    },
+    "model": "knowledge.savedsearch",
+    "pk": 22
+},
+{
+    "fields": {
+        "scheduled": false,
+        "scheduled_time": "",
+        "search": "monitoring_metrics,os",
+        "user_id": 3,
+        "description": "This is new query",
+        "cron_schedule": "",
+        "created": "2015-05-27T07:01:48.765Z",
+        "selected_fields": "",
+        "enabled": false,
+        "updated": "2015-05-27T07:08:27.446Z",
+        "dsl": "{\n\t\"query\": {\n\t\t\"bool\": {\n\t\t\t\"must\": [\n\t\t\t\t{\n\t\t\t\t\t\"range\": {\n\t\t\t\t\t\t\"os.@timestamp\": {\n\t\t\t\t\t\t\t\"from\": \"2015-05-07T16:05:53\",\n\t\t\t\t\t\t\t\"to\": \"2015-05-28T16:05:55\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"range\": {\n\t\t\t\t\t\t\"os.disk_usage.percent\": {\n\t\t\t\t\t\t\t\"from\": \"80\",\n\t\t\t\t\t\t\t\"to\": \"100\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"range\": {\n\t\t\t\t\t\t\"os.mem.percent\": {\n\t\t\t\t\t\t\t\"from\": \"90\",\n\t\t\t\t\t\t\t\"to\": \"100\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"must_not\": [],\n\t\t\t\"should\": []\n\t\t}\n\t},\n\t\"from\": 0,\n\t\"size\": 50,\n\t\"sort\": [],\n\t\"facets\": {}\n}",
+        "dsl_vars": "",
+        "name": "OS_Metrics"
+    },
+    "model": "knowledge.savedsearch",
+    "pk": 23
+},
+{
+    "fields": {
+        "scheduled": false,
+        "scheduled_time": "",
+        "search": "monitoring_metrics,storm",
+        "user_id": 3,
+        "description": "This is new query",
+        "cron_schedule": "",
+        "created": "2015-05-27T07:21:32.751Z",
+        "selected_fields": "",
+        "enabled": false,
+        "updated": "2015-05-27T08:17:38.603Z",
+        "dsl": "{\n\t\"query\": {\n\t\t\"bool\": {\n\t\t\t\"must\": [\n\t\t\t\t{\n\t\t\t\t\t\"match_all\": {}\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"must_not\": [],\n\t\t\t\"should\": []\n\t\t}\n\t},\n\t\"from\": 0,\n\t\"size\": 50,\n\t\"sort\": [],\n\t\"facets\": {}\n}",
+        "dsl_vars": "",
+        "name": "Storm_Query"
+    },
+    "model": "knowledge.savedsearch",
+    "pk": 24
+},
+{
+    "fields": {
+        "scheduled": false,
+        "scheduled_time": "",
+        "search": "titanic,passenger",
+        "user_id": 61,
+        "description": "This is new query",
+        "cron_schedule": "",
+        "created": "2015-06-11T10:36:38.787Z",
+        "selected_fields": "['fare', 'name', 'embarked', 'age', 'parch', 'pclass', 'sex', 'survived', 'sibsp', 'passengerid', 'ticket', 'cabin']",
+        "enabled": false,
+        "updated": "2015-06-30T09:21:39.113Z",
+        "dsl": "{\n\t\"query\": {\n\t\t\"bool\": {\n\t\t\t\"must\": [\n\t\t\t\t{\n\t\t\t\t\t\"range\": {\n\t\t\t\t\t\t\"passenger.age\": {\n\t\t\t\t\t\t\t\"from\": \"20\",\n\t\t\t\t\t\t\t\"to\": \"30\"\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t],\n\t\t\t\"must_not\": [],\n\t\t\t\"should\": []\n\t\t}\n\t},\n\t\"from\": \"0\",\n\t\"size\": \"100\",\n\t\"sort\": [],\n\t\"facets\": {}\n}",
+        "dsl_vars": "{}",
+        "name": "Titanic Query"
+    },
+    "model": "knowledge.savedsearch",
+    "pk": 25
+}
+]

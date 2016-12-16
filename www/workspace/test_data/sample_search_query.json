@@ -1,0 +1,30 @@
+{
+   "query":{
+      "bool":{
+         "must":[
+            {
+               "range":{
+                  "passenger.age":{
+                     "from":"20",
+                     "to":"30"
+                  }
+               }
+            }
+         ],
+         "must_not":[
+
+         ],
+         "should":[
+
+         ]
+      }
+   },
+   "from":"0",
+   "size":"100",
+   "sort":[
+
+   ],
+   "facets":{
+
+   }
+}

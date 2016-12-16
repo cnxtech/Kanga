@@ -1,0 +1,21 @@
+<!ELEMENT library (processor*)>
+<!ELEMENT processor (name, class_name, md_file, field*)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT class_name (#PCDATA)>
+<!ELEMENT md_file (#PCDATA)>
+<!ELEMENT field (field_name, placeholder?, shortdescription? ,options?)>
+<!ELEMENT field_name (#PCDATA)>
+<!ELEMENT placeholder (#PCDATA)>
+<!ELEMENT shortdescription (#PCDATA)>
+<!ELEMENT options (option*)>
+<!ELEMENT option (#PCDATA)>
+
+<!ATTLIST library type (base_library|third_party_library) #REQUIRED>
+<!ATTLIST library version CDATA #REQUIRED>
+<!ATTLIST library name CDATA #REQUIRED>
+<!ATTLIST processor category CDATA #REQUIRED>
+<!ATTLIST processor node_type (SOURCE|SINK|JOIN|NORMAL|NA) #REQUIRED>
+<!ATTLIST processor storm_node_type (spout|bolt) #REQUIRED>
+<!ATTLIST field type (text|textarea|dropdown|check) #REQUIRED>
+<!ATTLIST field mandatory (true|false) #REQUIRED>
+<!ATTLIST field default CDATA #IMPLIED>

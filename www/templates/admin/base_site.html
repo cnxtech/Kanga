@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Kanga site admin') }}{% endblock %}
+
+{% block extrahead %}
+<link rel="icon" type="image/png" href="/static/favicon.ico" />
+<style>
+select {
+    width: 614px;
+}
+textarea{
+    width: 600px;
+}
+textarea {
+    height: 400px;
+}
+.header a {
+    color: #DFE4ED;
+    text-decoration: none;
+}
+.header {
+    background-image: -webkit-gradient(linear, left top, right top, from(#293846), to(#293846));
+    background-color: #293846;
+}
+body {
+    font-family: "Myriad Set Pro","Lucida Grande","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Kanga Administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,20 @@
+<!ELEMENT library (processor*)>
+<!ELEMENT processor (name, class_name, field*)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT class_name (#PCDATA)>
+<!ELEMENT field (field_name, placeholder?, shortdescription? ,options?)>
+<!ELEMENT field_name (#PCDATA)>
+<!ELEMENT placeholder (#PCDATA)>
+<!ELEMENT shortdescription (#PCDATA)>
+<!ELEMENT options (option*)>
+<!ELEMENT option (#PCDATA)>
+
+<!ATTLIST library type(Base library|Third party library) CDATA #REQUIRED>
+<!ATTLIST library version CDATA #REQUIRED>
+<!ATTLIST library name CDATA #REQUIRED>
+<!ATTLIST processor category CDATA #REQUIRED>
+<!ATTLIST processor node_type(Source|Sink|Join|Normal|NA) CDATA #REQUIRED>
+<!ATTLIST processor storm_node_type(Spout|Bolt) CDATA #REQUIRED>
+<!ATTLIST field type CDATA #REQUIRED>
+<!ATTLIST field default CDATA #IMPLIED>
+<!ATTLIST field mandatory CDATA #REQUIRED>

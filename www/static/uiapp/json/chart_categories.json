@@ -1,0 +1,11 @@
+{
+  "items":[
+    {"id": 0, "category": "Bar Series"},
+    {"id": 1, "category": "Pie Series"},
+    {"id": 2, "category": "Line and Point Series"},
+    {"id": 3, "category": "Doughnut Series"},
+    {"id": 4, "category": "Area Series"},
+    {"id": 5, "category": "Data Grid"},
+    {"id": 6, "category": "Label"}
+  ]
+}

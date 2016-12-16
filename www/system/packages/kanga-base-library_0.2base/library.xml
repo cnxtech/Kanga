@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library type="base_library" version="0.2" name="kanga-base-library">
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>from_file</name>
+        <class_name>spout.file-reader</class_name>
+        <md_file>source_filereader_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>file_path</field_name>
+            <placeholder>full file path to read</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>sleeping_time</field_name>
+            <placeholder>sleeping time to read</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>from_tcp_server</name>
+        <class_name>spout.tcp-server</class_name>
+        <md_file>source_filereader_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>port</field_name>
+            <placeholder>port for tcp server</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>from_zmq</name>
+        <class_name>spout.zmq-reader</class_name>
+        <md_file>source_filereader_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+        <field type="text" default="10.251.20.120:6001" mandatory="true">
+            <field_name>host</field_name>
+            <placeholder>host for zeromq</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>topicname</field_name>
+            <placeholder>topicname for zeromq</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>from_time_tick</name>
+        <class_name>spout.time-tick</class_name>
+        <md_file>source_filereader_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>time_unit</field_name>
+            <options>
+                <option>SECOND</option>
+                <option>TICK</option>
+            </options>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>time_size</field_name>
+            <placeholder>Give time size</placeholder>
+        </field>
+    </processor>    
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>read_from_mqtt</name>
+        <class_name>spout.mqtt-reader</class_name>
+        <md_file>source_read_from_mqtt.md</md_file>
+        <field type="text" default="10.251.21.107:1883" mandatory="true">
+            <field_name>host</field_name>
+            <placeholder>MQTT host</placeholder>
+        </field>
+        <field type="text" default="default_topic" mandatory="true">
+            <field_name>topic</field_name>
+            <placeholder>topic to read from</placeholder>
+        </field>
+        <field type="text" default="default_output" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>cpu_mem_info</name>
+        <class_name>spout.resource-info</class_name>
+        <md_file>source_read_from_mqtt.md</md_file>
+        <field type="text" default="1000" mandatory="true">
+            <field_name>sleeping_time</field_name>
+            <placeholder>sleeping time</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="input_stream" node_type="SOURCE" storm_node_type="spout">
+        <name>cpu_info</name>
+        <class_name>spout.cpu-info</class_name>
+        <md_file>source_read_from_mqtt.md</md_file>
+        <field type="text" default="1000" mandatory="true">
+            <field_name>sleeping_time</field_name>
+            <placeholder>sleeping time</placeholder>
+        </field>
+    </processor>
+
+    <processor category="output_stream" node_type="SINK" storm_node_type="bolt">
+        <name>to_file</name>
+        <class_name>sink.save-to-file</class_name>
+        <md_file>sink_savetofile_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_file_path</field_name>
+            <placeholder>full file path to write</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="output_stream" node_type="SINK" storm_node_type="bolt">
+        <name>to_socket_io</name>
+        <class_name>sink.to-socket-io</class_name>
+        <md_file>sink_savetofile_processor.md</md_file>
+        <field type="text" default="10.251.20.120:3000" mandatory="true">
+            <field_name>host</field_name>
+            <placeholder>10.251.20.120:3000</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>topicname</field_name>
+            <placeholder>topicname</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="output_stream" node_type="SINK" storm_node_type="bolt">
+        <name>to_zmq</name>
+        <class_name>sink.zmq-writer</class_name>
+        <md_file>source_filereader_processor.md</md_file>
+        <field type="text" default="10.251.20.120:6001" mandatory="true">
+            <field_name>host</field_name>
+            <placeholder>host for zeromq</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>topicname</field_name>
+            <placeholder>topicname for zeromq</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="output_stream" node_type="SINK" storm_node_type="bolt">
+        <name>write_to_mqtt</name>
+        <class_name>sink.mqtt-writer</class_name>
+        <md_file>sink_write_to_mqtt.md</md_file>
+        <field type="text" default="10.251.21.107:1883" mandatory="true">
+            <field_name>host</field_name>
+            <placeholder>MQTT host</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>topic</field_name>
+            <placeholder>topic to write to</placeholder>
+        </field>
+    </processor>
+
+    <processor category="transform" node_type="NORMAL" storm_node_type="bolt">
+        <name>add_field</name>
+        <class_name>transform.add-field</class_name>
+        <md_file>transform_addfields_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>input_field_name</field_name>
+            <placeholder>Name of the field to be added</placeholder>
+        </field>
+        <field type="textarea" default="" mandatory="true">
+            <field_name>value</field_name>
+            <placeholder>It should be a valid JavaScript expression</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>
+
+    <processor category="transform" node_type="NORMAL" storm_node_type="bolt">
+        <name>remove_fields</name>
+        <class_name>transform.remove-fields</class_name>
+        <md_file>transform_removefields_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>input_field_names</field_name>
+            <placeholder>A comma-separated list of fields to be removed</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>    
+    
+    <processor category="transform" node_type="NORMAL" storm_node_type="bolt">
+        <name>regex</name>
+        <class_name>transform.regex</class_name>
+        <md_file>transform_regex_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>input_field_name</field_name>
+            <placeholder>Name of the field to be parsed</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>pattern</field_name>
+            <placeholder>Regex pattern for parsing</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_field_names</field_name>
+            <placeholder>A comma-separated list of fields to be assigned parsing results</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_field_types</field_name>
+            <placeholder>A comma-separated list of java primitives for the output fields</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="transform" node_type="NORMAL" storm_node_type="bolt">
+        <name>rename_fields</name>
+        <class_name>transform.rename-fields</class_name>
+        <md_file>transform_renamefields_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_field_names</field_name>
+            <placeholder>New name of the field</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>input_field_names</field_name>
+            <placeholder>The old name to be changed</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>  
+
+    <processor category="transform" node_type="NORMAL" storm_node_type="bolt">
+        <name>split</name>
+        <class_name>transform.split</class_name>
+        <md_file>transform_split_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>input_field_name</field_name>
+            <placeholder>Field to be splitted</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>delimiter</field_name>
+            <placeholder>Delimiter for splitting</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_field_names</field_name>
+            <placeholder>A comma-separated list of fields to be assigned splitting results</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>      
+    
+    <processor category="join" node_type="JOIN" storm_node_type="bolt">
+        <name>merge</name>
+        <class_name>join.merge</class_name>
+        <md_file>join_merge_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="filter" node_type="NORMAL" storm_node_type="bolt">
+        <name>table</name>
+        <class_name>filter.table</class_name>
+        <md_file>filter_table_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>field_name</field_name>
+            <placeholder>Enter the fields which you want to filter from tuple. It should be "," seperated</placeholder>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>field_type</field_name>
+            <placeholder>Enter the type for each field separated by ","</placeholder>
+        </field>
+    </processor>
+    
+    <processor category="filter" node_type="NORMAL" storm_node_type="bolt">
+        <name>where_clause</name>
+        <class_name>filter.where-clause</class_name>
+        <md_file>filter_whereclause_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output</placeholder>
+        </field>
+        <field type="textarea" default="" mandatory="true">
+            <field_name>condition</field_name>
+            <placeholder>Give condition based on which tuples are to be filtered</placeholder>
+        </field>
+    </processor> 
+    
+    <processor category="sample" node_type="NORMAL" storm_node_type="bolt">
+        <name>first_tick</name>
+        <class_name>sample.first-tick</class_name>
+        <md_file>sample_firsttick_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>bucket_size</field_name>
+            <placeholder>Give bucket size</placeholder>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>bucket_unit</field_name>
+            <options>
+                <option>SECOND</option>
+                <option>TICK</option>
+            </options>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>event_type</field_name>
+            <options>
+                <option>STATIC</option>
+                <option>EVENT</option>
+            </options>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>
+
+    <processor category="sample" node_type="NORMAL" storm_node_type="bolt">
+        <name>last_tick</name>
+        <class_name>sample.last-tick</class_name>
+        <md_file>sample_lasttick_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>bucket_size</field_name>
+            <placeholder>Give bucket size</placeholder>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>bucket_unit</field_name>
+            <options>
+                <option>SECOND</option>
+                <option>TICK</option>
+            </options>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>event_type</field_name>
+            <options>
+                <option>STATIC</option>
+                <option>EVENT</option>
+            </options>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>
+
+    <processor category="sample" node_type="NORMAL" storm_node_type="bolt">
+        <name>random_tick</name>
+        <class_name>sample.random-tick</class_name>
+        <md_file>sample_Randomtick_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>bucket_size</field_name>
+            <placeholder>Give bucket size</placeholder>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>bucket_unit</field_name>
+            <options>
+                <option>SECOND</option>
+                <option>TICK</option>
+            </options>
+        </field>
+        <field type="dropdown" default="" mandatory="true">
+            <field_name>event_type</field_name>
+            <options>
+                <option>STATIC</option>
+                <option>EVENT</option>
+            </options>
+        </field>
+        <field type="text" default="" mandatory="true">
+            <field_name>output_name</field_name>
+            <placeholder>Output name to be changed</placeholder>
+        </field>
+    </processor>           
+    <processor category="oneM2M" node_type="NORMAL" storm_node_type="bolt">
+        <name>reformat</name>
+        <class_name>oneM2M.reformat</class_name>
+        <md_file>transform_addfields_processor.md</md_file>
+        <field type="text" default="ctname" mandatory="true">
+            <field_name>key_field_name</field_name>
+            <!--<placeholder>key_field_name</placeholder>-->
+        </field>
+        <field type="text" default="con" mandatory="true">
+            <field_name>value_field_name</field_name>
+            <!--<placeholder>value_field_name</placeholder>-->
+        </field>
+        <field type="text" default="ko-kr" mandatory="true">
+            <field_name>locale</field_name>
+            <!--<placeholder>locale</placeholder>-->
+        </field>
+    </processor>
+    
+    <processor category="output_stream" node_type="SINK" storm_node_type="bolt">
+        <name>to_mobius</name>
+        <class_name>sink.to-mobius</class_name>
+        <md_file>transform_addfields_processor.md</md_file>
+        <field type="text" default="" mandatory="true">
+            <field_name>config_file_path</field_name>
+            <!--<placeholder>config_file_path</placeholder>-->
+        </field>
+        <field type="text" default="ctname" mandatory="true">
+            <field_name>key_field_name</field_name>
+            <!--<placeholder>key_field_name</placeholder>-->
+        </field>
+        <field type="text" default="con" mandatory="true">
+            <field_name>value_field_name</field_name>
+            <!--<placeholder>value_field_name</placeholder>-->
+        </field>
+        <field type="text" default="1000" mandatory="true">
+            <field_name>sleeping_time</field_name>
+            <!--<placeholder>sleeping time</placeholder>-->
+        </field>
+    </processor>
+</library>

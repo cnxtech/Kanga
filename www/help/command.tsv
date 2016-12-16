@@ -1,0 +1,43 @@
+input_streaming^passthrough^frequently used
+transformation^add_field^frequently used
+transformation^udpate_field^frequently used
+transformation^split^frequently used
+filter^where_clause^frequently used
+filter^last_tick^occasionally used
+filter^first_tick^occasionally used
+filter^table^occasionally used
+aggregation^average^frequently used
+aggregation^sum^occasionally used
+aggregation^count^frequently used
+aggregation^min^occasionally used
+aggregation^max^occasionally used
+aggregation^calculate^frequently used
+join^join_by_time^occasionally used
+join^join^occasionally used
+join^merge^occasionally used
+join^sort^occasionally used
+sql^insert_into_database^occasionally used
+sql^passthrough_from_database^occasionally used
+builtin^log^built-in
+builtin^strToDatetime^built-in
+builtin^dayOfWeek^built-in
+builtin^year^built-in
+builtin^month^built-in
+builtin^day^built-in
+builtin^hour^built-in
+builtin^weekOfYear^built-in
+builtin^pow^built-in
+builtin^abs^built-in
+builtin^ceil^built-in
+builtin^floor^built-in
+builtin^round^built-in
+builtin^regex^built-in
+builtin^strToNumeric^built-in
+builtin^toUpperCase^built-in
+builtin^toLowerCase^built-in
+builtin^trim^built-in
+builtin^ltrim^built-in
+builtin^rtrim^built-in
+builtin^now^built-in
+builtin^replace^built-in
+builtin^substr^built-in

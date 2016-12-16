@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Running Queries</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-tasks"></i> Registered Queries</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'monitor:index' %}">Job Monitor</a></li>
+                    <li class="active"><strong>Registered Queries</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h2>
+                            Registered queries
+                            <div class="ibox-tools">
+                                <button class="btn btn-success btn-xs" id="refresh_topology_list"><i class="fa fa-refresh"></i> Refresh</button>
+                                <button id="ip_settings" data-toggle="button" class="btn btn-success btn-xs" type="button"><i class="fa fa-cog"></i> Settings</button>
+                            </div>
+                        </h2>
+                    </div>
+                    <div class="ibox-content">
+                        <table id="dataTables-topology" class="table  table-hover table-striped " width="100%">
+                            <thead>
+                            <tr>
+                                <th>PID</th>
+                                <th>Topology</th>
+                                <th>CPU Percent</th>
+                                <th>Peak Working Set</th>
+                                <th>Working Set</th>
+                                <th>Paged Pool</th>
+                                <th>Non Paged Pool</th>
+                                <th>Num Threads</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+
+<!-- chartjs -->
+<script src="{% static 'uiapp/externals/devexpress/globalize.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/devextreme/dx.chartjs.js' %}"></script>
+
+<!-- Knocout -->
+<script src="{% static 'uiapp/externals/knockout/knockout-3.3.0.js' %}"></script>
+<script src="{% static 'uiapp/externals/knockout/knockout.mapping.js' %}"></script>
+
+<!-- Page-Level Scripts -->
+<script>
+
+var topology_id = "{{id}}";
+var topology_stat_url = "{% url 'monitor:api-topology-stat' 0 %}";
+topology_stat_url = topology_stat_url.substring(0,topology_stat_url.length-3);
+
+function topology_list_table(){
+    $('#dataTables-topology').dataTable({
+        "ajax": {
+            "url": '{% url 'monitor:api-storm-topology-summary' %}',
+            "error": handleAjaxError
+        },
+        "columns": [
+            {"data": "pid"},
+            {"data": "topology"},
+            {"data": "cpu_percent"},
+            {"data": "peak_working_set"},
+            {"data": "working_set"},
+            {"data": "paged_pool"},
+            {"data": "nonpaged_pool"},
+            {"data": "num_threads"},
+            {"data": "action"},
+        ],
+        language: {"search": "Search: "},
+        bDestroy: true,
+    });
+}
+$(document).ready(function() {
+    /*datatable initialization*/
+    $('#dataTables-topology-configuration').dataTable({
+        language: {"search": "Search: "},
+        "pageLength": 25,
+    });
+    topology_list_table();
+    {% if info %}
+    toastr.success('{{ info }}', '');
+    {% endif %}
+    {% if warning %}
+    toastr.warning('{{ warning }}', '');
+    {% endif %}
+    $('#refresh_topology_list').on( 'click', function (e)
+    {
+        topology_list_table();
+    });
+    var ioPerf = new DevExpress.data.DataSource();
+    var latencyPerf = new DevExpress.data.DataSource();
+    if (topology_id!=""){
+        $.ajax({
+                url: topology_stat_url+"/"+topology_id,
+                timeout: 10000,
+                success: function(json) {
+                    if (json.hasOwnProperty('error')){
+                        $("#ioPerf").html("");
+                        $("#latencyPerf").html("");
+                    } else {
+                        console.log('1111111')
+                        $("#ioPerf").dxChart("instance").option({ dataSource: json.io_perf });
+                        $("#latencyPerf").dxPieChart("instance").option({ dataSource: json.latency_perf });
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                },
+                complete: function(jqXHR) {
+                    console.log(jqXHR);
+                },
+                dataType:"json",
+        });
+    }
+    var ioPerfChart = $("#ioPerf").dxChart({
+        animation: { enabled: true },
+        rotated: true,
+        dataSource: ioPerf,
+        commonSeriesSettings: {
+            argumentField: "id",
+            type: "bar",
+            hoverMode: "allArgumentPoints",
+            selectionMode: "allArgumentPoints",
+            label: {
+                visible: true,
+                format: "fixedPoint",
+                precision: 0
+            }
+        },
+        series: [
+            { valueField: "transferred", name: "transferred" },
+            { valueField: "transferred", name: "acked" },
+            { valueField: "emitted", name: "emitted" },
+        ],
+        title: "Traffic Performance (in messages)",
+        legend: {
+            verticalAlignment: "bottom",
+            horizontalAlignment: "center"
+        },
+        tooltip: {
+            enabled: true,
+            percentPrecision: 0
+        },
+    });
+
+    $("#refersh_chart").click(function(e){
+        ioPerfChart._render();
+        console.log(ioPerfChart);
+    });
+
+
+    $("#latencyPerf").dxPieChart({
+        animation: { enabled: true },
+        dataSource: latencyPerf,
+        series: {
+            argumentField: 'id',
+            valueField: 'latency',
+            label: {
+                visible: true,
+                connector: {
+                    visible: true
+                }
+            },
+            type: "doughnut",
+            smallValuesGrouping: {
+                mode: "topN",
+                topCount: 4
+            },
+        },
+        pathModified: true,
+        tooltip: {
+            enabled: true,
+            percentPrecision: 1,
+            customizeTooltip: function (value) {
+                return {
+                    text: value.percentText
+                };
+            }
+        },
+        title: {
+            text: 'Latency (in millisecond)'
+        },
+        legend: {
+            horizontalAlignment: 'center',
+            verticalAlignment: 'bottom'
+        }
+    });
+});
+function handleAjaxError( xhr, textStatus, error ) {
+    if ( textStatus === 'timeout' ) {
+        alert( 'The server took too long to send the data.' );
+    }
+    else {
+        alert( 'An error occurred on the server. Please try again in a minute.' );
+    }
+}
+function kill_topology(url){
+    $.ajax({
+        url: url,
+        timeout: 10000,
+        success: function(json) {
+            if (!("data" in json)==0) {
+                toastr.success(json['data'],'');
+                topology_list_table();
+            }
+            else if (!("error" in json)==0) {
+                toastr.error(json['error'],'');
+            }else{
+                toastr.error('There is server communication error. Please try a few seconds later','');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        },
+        complete: function(jqXHR) {
+            console.log(jqXHR);
+        },
+        dataType:"json",
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Suggested Process</title>
+    {% include "uiapp/core-styles.html" %}
+
+</head>
+
+<body class="pace-done ">
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-tasks"></i> Recommended Working Process</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li>Help</li>
+                    <li class="active"><strong>Suggested Process</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="ibox-content" id="ibox-content">
+                <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
+                <div class="vertical-timeline-block">
+                    <div class="vertical-timeline-icon navy-bg">
+                        <i class="fa fa-file-text"></i>
+                    </div>
+
+                    <div class="vertical-timeline-content">
+                        <h2>Add Machine-driven Source Data</h2>
+                        <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+                        </p>
+                        <a href="#" class="btn btn-sm btn-primary"> More info</a>
+                        <span class="vertical-date">
+                            1st Step <br>
+                            <small><a href="{% url 'workspace:streaming-query' %}">Build a streaming query</a></small>
+                        </span>
+                    </div>
+                </div>
+
+                <!--<div class="vertical-timeline-block">-->
+                    <!--<div class="vertical-timeline-icon blue-bg">-->
+                        <!--<i class="fa fa-pencil-square-o"></i>-->
+                    <!--</div>-->
+
+                    <!--<div class="vertical-timeline-content">-->
+                        <!--<h2>Build Complex Event Processing Query</h2>-->
+                        <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>-->
+                        <!--<a href="#" class="btn btn-sm btn-success"> Download document </a>-->
+                        <!--<span class="vertical-date">-->
+                            <!--2nd Step <br>-->
+                            <!--<small><a href="{% url 'workspace:streaming-query' %}">Build Query</a></small>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="vertical-timeline-block">-->
+                    <!--<div class="vertical-timeline-icon lazur-bg">-->
+                        <!--<i class="fa fa-bar-chart"></i>-->
+                    <!--</div>-->
+
+                    <!--<div class="vertical-timeline-content">-->
+                        <!--<h2>Search Analysis Result</h2>-->
+                        <!--<p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>-->
+                        <!--<a href="#" class="btn btn-sm btn-info">Read more</a>-->
+                        <!--<span class="vertical-date">-->
+                            <!--3rd Step <br>-->
+                            <!--<small><a href="{% url 'workspace:streaming-query' %}">Search</a></small>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="vertical-timeline-block">-->
+                    <!--<div class="vertical-timeline-icon yellow-bg">-->
+                        <!--<i class="fa fa-users"></i>-->
+                    <!--</div>-->
+
+                    <!--<div class="vertical-timeline-content">-->
+                        <!--<h2>Build Your Report and Share With Colleagues</h2>-->
+                        <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>-->
+                        <!--<span class="vertical-date">-->
+                            <!--4th Step <br>-->
+                            <!--<small><a href="{% url 'workspace:streaming-query' %}">Report</a></small>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="vertical-timeline-block">-->
+                    <!--<div class="vertical-timeline-icon lazur-bg">-->
+                        <!--<i class="fa fa-volume-up"></i>-->
+                    <!--</div>-->
+
+                    <!--<div class="vertical-timeline-content">-->
+                        <!--<h2>Set up Alert Rules and Receive Sudden Regime Changes</h2>-->
+                        <!--<p>Find some issue and go to doctor. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. </p>-->
+                        <!--<span class="vertical-date">-->
+                            <!--5th Step <br>-->
+                            <!--<small><a href="{% url 'workspace:streaming-query' %}">Alert</a></small>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            </div>
+            </div>
+        </div>
+
+
+
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+
+
+
+<!-- Page-Level Scripts -->
+<script>
+    $(document).ready(function() {
+        var source_id = "all";
+        /*datatable initialization*/
+        $('#dataTables-query-commands').dataTable({
+            responsive: true,
+            ajax: './list/'+source_id+'/',
+
+        });
+        /*command cell click event to view detail*/
+        $('#dataTables-query-commands tbody').on('click', 'td', function () {
+            if ( $(this).index() == 0 ) {
+                //alert('Data:'+$(this).text().trim());
+                //alert('Row:'+$(this).parent().find('td').text().trim());
+                //alert('Column:'+$('#dataTables-query-commands thead tr th').eq($(this).index()).html().trim());
+                $("#command-list").hide();
+                $("#command-detail").show();
+
+            }
+        } );
+    });
+
+
+</script>
+</body>
+</html>

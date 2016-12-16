@@ -1,0 +1,814 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "category_id": 6,
+      "label": "Label",
+      "name": "Label",
+      "icon": "label.png",
+      "width": 200,
+      "height": 100,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Label Settings",
+          "properties": [
+            {
+              "type": "dropdown",
+              "code": "data",
+              "name": "Label Source",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "font-size",
+              "name": "Font Size",
+              "value": "30px",
+              "options": [
+                {"text":"9px",  "value": "9px"},
+                {"text":"10px", "value": "10px"},
+                {"text":"11px", "value": "11px"},
+                {"text":"12px", "value": "12px"},
+                {"text":"13px", "value": "13px"},
+                {"text":"14px", "value": "14px"},
+                {"text":"15px", "value": "15px"},
+                {"text":"16px", "value": "16px"},
+                {"text":"17px", "value": "17px"},
+                {"text":"18px", "value": "18px"},
+                {"text":"19px", "value": "19px"},
+                {"text":"20px", "value": "20px"},
+                {"text":"21px", "value": "21px"},
+                {"text":"22px", "value": "22px"},
+                {"text":"23px", "value": "23px"},
+                {"text":"24px", "value": "24px"},
+                {"text":"25px", "value": "25px"},
+                {"text":"26px", "value": "26px"},
+                {"text":"27px", "value": "27px"},
+                {"text":"28px", "value": "28px"},
+                {"text":"29px", "value": "29px"},
+                {"text":"30px", "value": "30px"},
+                {"text":"31px", "value": "31px"},
+                {"text":"32px", "value": "32px"},
+                {"text":"33px", "value": "33px"},
+                {"text":"34px", "value": "34px"},
+                {"text":"35px", "value": "35px"},
+                {"text":"36px", "value": "36px"},
+                {"text":"37px", "value": "37px"},
+                {"text":"38px", "value": "38px"},
+                {"text":"39px", "value": "39px"}
+              ]
+            },
+            {
+              "type": "coloredittext",
+              "code": "color",
+              "name": "Text Color",
+              "value": "#000000",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "category_id": 5,
+      "label": "Table",
+      "name": "Table",
+      "icon": "table.png",
+      "width": 800,
+      "height": 500,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+      ]
+    },
+    {
+      "id": 2,
+      "category_id": 3,
+      "label": "Donut",
+      "name": "Donut",
+      "icon": "donut-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "label",
+              "name": "Label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "data",
+              "name": "data",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category_id": 4,
+      "label": "Area Chart",
+      "name": "Area Chart",
+      "icon": "area-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+            "type": "edittext",
+            "code": "title",
+            "name": "Title",
+            "value": "",
+            "options": []
+           },
+            {
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category_id": 2,
+      "label": "Line Chart",
+      "name": "Line Chart",
+      "icon": "line-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "category_id": 4,
+      "label": "Stacked Area Chart",
+      "name": "Stacked Area Chart",
+      "icon": "stacked-area-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "category_id": 0,
+      "label": "Bar Chart",
+      "name": "Bar Chart",
+      "icon": "bar-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "coloredittext",
+              "code": "color",
+              "name": "Color",
+              "value": "#ffa500",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "category_id": 0,
+      "label": "Stacked Bar Chart",
+      "name": "Stacked Bar Chart",
+      "icon": "stacked-bar-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "category_id": 0,
+      "label": "Normalized Stacked Bar Chart",
+      "name": "Normalized Stacked Bar Chart",
+      "icon": "normalized-stacked-bar-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "category_id": 0,
+      "label": "Grouped Bar Chart",
+      "name": "Grouped Bar Chart",
+      "icon": "grouped-bar-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },{
+              "type": "multidropdown",
+              "code": "y-axis",
+              "name": "y-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-axis",
+              "name": "x-axis",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "x-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "y-label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "category_id": 2,
+      "label": "Scatterplot",
+      "name": "Scatterplot",
+      "icon": "scatterplot-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "x-coordinate",
+              "name": "X-Coordinate",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "y-coordinate",
+              "name": "Y-Coordinate",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "x-label",
+              "name": "X-Label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "edittext",
+              "code": "y-label",
+              "name": "Y-Label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "coloredittext",
+              "code": "color",
+              "name": "Color",
+              "value": "#1ab394",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "value-position",
+              "name": "Value Axis Position",
+              "value": "0",
+              "options": [
+                {"text": "Left", "value": "0"},
+                {"text": "Right", "value": "1"}
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "category_id": 1,
+      "label": "Pie Chart",
+      "name": "Pie Chart",
+      "icon": "pie-chart.png",
+      "width": 200,
+      "height": 169,
+      "row_index": 1,
+      "col_order": 1,
+      "groups": [
+        {
+          "group_id": 1,
+          "group_name": "Chart Source Settings",
+          "properties": [
+            {
+              "type": "edittext",
+              "code": "title",
+              "name": "Title",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "label",
+              "name": "Label",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "data",
+              "name": "data",
+              "value": "",
+              "options": []
+            },
+            {
+              "type": "dropdown",
+              "code": "legend-position",
+              "name": "Legend Position",
+              "value": "2",
+              "options": [
+                {"text": "Top Left", "value": "0"},
+                {"text": "Top Center", "value": "1"},
+                {"text": "Top Right", "value": "2"},
+                {"text": "Bottom Left", "value": "3"},
+                {"text": "Bottom Center", "value": "4"},
+                {"text": "Bottom Right", "value": "5"}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+  ]
+}

@@ -1,0 +1,10 @@
+[
+{
+    "fields": {
+        "updated": "2015-05-04T08:55:58.243Z",
+        "created": "2015-05-04T08:55:58.243Z"
+    },
+    "model": "system.cluster",
+    "pk": "CNC Log Analysis Cluster"
+}
+]

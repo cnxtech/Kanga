@@ -1,0 +1,67 @@
+[
+{
+    "fields": {
+        "node": "localhost",
+        "updated": "2015-05-05T23:09:46.987Z",
+        "code": "ELASTICSEARCH",
+        "created": "2015-05-05T23:09:46.987Z",
+        "purpose": "MONITORING",
+        "active": "GOOD",
+        "port": 9200
+    },
+    "model": "system.service",
+    "pk": "ElasticSearch monitoring"
+},
+{
+    "fields": {
+        "node": "localhost",
+        "updated": "2015-05-04T09:01:20.332Z",
+        "code": "KAFKA",
+        "created": "2015-05-04T08:56:46.855Z",
+        "purpose": "MONITORING",
+        "active": "GOOD",
+        "port": 9092
+    },
+    "model": "system.service",
+    "pk": "Kafka monitoring"
+},
+{
+    "fields": {
+        "node": "localhost",
+        "updated": "2015-05-05T23:04:39.870Z",
+        "code": "OS",
+        "created": "2015-05-05T23:04:39.870Z",
+        "purpose": "MONITORING",
+        "active": "GOOD",
+        "port": 0
+    },
+    "model": "system.service",
+    "pk": "OS metrics"
+},
+{
+    "fields": {
+        "node": "localhost",
+        "updated": "2015-05-05T22:56:05.312Z",
+        "code": "STORM",
+        "created": "2015-05-05T22:56:05.312Z",
+        "purpose": "MONITORING",
+        "active": "GOOD",
+        "port": 8080
+    },
+    "model": "system.service",
+    "pk": "Storm monitoring"
+},
+{
+    "fields": {
+        "node": "localhost",
+        "updated": "2015-05-05T23:00:11.511Z",
+        "code": "ZOOKEEPER",
+        "created": "2015-05-05T23:00:11.511Z",
+        "purpose": "MONITORING",
+        "active": "GOOD",
+        "port": 2181
+    },
+    "model": "system.service",
+    "pk": "Zookeeper monitoring"
+}
+]

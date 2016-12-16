@@ -1,0 +1,85 @@
+passthrough_input_fields^input_fields^text^passthrough^input_fields
+passthrough_source^source^dropdown^passthrough^source
+passthrough_from^from^datetime^passthrough^from
+passthrough_to^to^datetime^passthrough^to
+passthrough_output^output^text^passthrough^output
+passthrough_timestamp_fieldname^timestamp_fieldname^text^passthrough^timestamp_fieldname
+passthrough_scenario^scenario^dropdown^passthrough^can be REALTIME or HISTORIC
+add_field_input_field_name^input_field_name^text^add_field^input_field_name
+add_field_value^value^text^add_field^value or equation
+add_field_output^output^text^add_field^output
+udpate_field_input_field_name^input_field_name^text^udpate_field^input_field_name
+udpate_field_value^value^text^udpate_field^value or equation
+udpate_field_where^where^text^udpate_field^where
+udpate_field_output^output^text^udpate_field^output
+split_input_field_name^input_field_name^text^split^input_field_name
+split_delimiter^delimiter^text^split^delimiter
+split_output_field_names^output_field_names^text^split^comma separate output field names
+split_output^output^text^split^output
+where_clause_condition^condition^text^where_clause^condition
+where_clause_output^output^text^where_clause^output
+first_tick_bucket^bucket^text^first_tick^bucket
+first_tick_bucket_unit^bucket_unit^dropdown^first_tick^SECOND or TICK
+first_tick_event_type^event_type^dropdown^first_tick^EVENT or STATIC
+first_tick_output^output^text^first_tick^output
+last_tick_bucket^bucket^text^last_tick^bucket
+last_tick_bucket_unit^bucket_unit^dropdown^last_tick^SECOND or TICK
+last_tick_event_type^event_type^dropdown^last_tick^EVENT or STATIC
+last_tick_output^output^text^last_tick^output
+table_fields^fields^text^table^fields
+average_input_field_name^input_field_name^text^average^input_field_name
+average_bucket^bucket^text^average^bucket
+average_bucket_unit^bucket_unit^dropdown^average^SECOND or TICK
+average_bucket_build^bucket_build^dropdown^average^BUCKET_START or BUCKET_END
+average_window_type^window_type^dropdown^average^SLIDING or BATCH
+average_group_by^group_by^text^average^group_by
+average_output^output^text^average^output
+sum_bucket^bucket^text^sum^bucket
+sum_bucket_unit^bucket_unit^dropdown^sum^SECOND or TICK
+sum_bucket_build^bucket_build^dropdown^sum^BUCKET_START or BUCKET_END
+sum_window_type^window_type^dropdown^sum^SLIDING or BATCH
+sum_group_by^group_by^text^sum^group_by
+sum_output^output^text^sum^output
+count_bucket^bucket^text^count^bucket
+count_bucket_unit^bucket_unit^dropdown^count^SECOND or TICK
+count_bucket_build^bucket_build^dropdown^count^BUCKET_START or BUCKET_END
+count_window_type^window_type^dropdown^count^SLIDING or BATCH
+count_group_by^group_by^text^count^group_by
+count_output^output^text^count^output
+min_bucket^bucket^text^min^bucket
+min_bucket_unit^bucket_unit^dropdown^min^SECOND or TICK
+min_bucket_build^bucket_build^dropdown^min^BUCKET_START or BUCKET_END
+min_window_type^window_type^dropdown^min^SLIDING or BATCH
+min_group_by^group_by^text^min^group_by
+min_output^output^text^min^output
+max_bucket^bucket^text^max^bucket
+max_bucket_unit^bucket_unit^dropdown^max^SECOND or TICK
+max_bucket_build^bucket_build^dropdown^max^BUCKET_START or BUCKET_END
+max_window_type^window_type^dropdown^max^SLIDING or BATCH
+max_group_by^group_by^text^max^group_by
+max_output^output^text^max^output
+calculate_functions^functions^text^calculate^functions
+calculate_bucket^bucket^text^calculate^bucket
+calculate_bucket_unit^bucket_unit^dropdown^calculate^SECOND or TICK
+calculate_bucket_build^bucket_build^dropdown^calculate^BUCKET_START or BUCKET_END
+calculate_window_type^window_type^dropdown^calculate^SLIDING or BATCH
+calculate_group_by^group_by^text^calculate^group_by
+calculate_output^output^text^calculate^output
+join_by_time_source^source^text^join_by_time^comma separate input list
+join_by_time_leading_source^leading_source^text^join_by_time^leading_source
+join_by_time_acceptable_secs_difference^acceptable_secs_difference^text^join_by_time^acceptable_secs_difference
+join_source^source^text^join^comma separate input list
+join_join_type^join_type^text^join^INNER or OUTER
+join_leading_source^leading_source^text^join^leading_source
+join_join_key^join_key^text^join^join_key
+merge_source^source^text^merge^comma separate input list
+merge_sorting_key^sorting_key^text^merge^comma separate input field names
+sort_sorting_key^sorting_key^text^sort^comma separate input field names
+insert_into_database_target_dns^target_dns^text^insert_into_database^target_dns
+insert_into_database_target_table^target_table^text^insert_into_database^target_table
+insert_into_database_target_fields^target_fields^text^insert_into_database^target_fields
+insert_into_database_input_fields^input_fields^text^insert_into_database^input_fields
+passthrough_from_database_source_dns^source_dns^text^passthrough_from_database^source_dns
+passthrough_from_database_select_sql^select_sql^text^passthrough_from_database^select_sql
+passthrough_from_database_from^from^text^passthrough_from_database^datetime
+passthrough_from_database_to^to^text^passthrough_from_database^datetime

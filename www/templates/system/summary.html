@@ -1,0 +1,199 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kanga | Service Summary</title>
+
+    {% include "uiapp/core-styles.html" %}
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="pace-done ">
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+        <!-- body contents start -->
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-lg-12">
+                <h2><i class="fa fa-newspaper-o"></i> Service Summary</h2>
+                <ol class="breadcrumb">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'system:index' %}">System</a></li>
+                    <li class="active"><strong>Service Summary</strong></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row wrapper wrapper-content">
+            <div class="col-lg-4">
+                <div class="ibox-title">
+                    <h2>Node List</h2>
+                </div>
+                <div class="ibox-content">
+                    {% if nodes %}
+                    <table id="node-list" class="table  table-hover table-striped " width="100%">
+                        <thead>
+                        <tr>
+                            <th>IP</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for node in nodes %}
+                            <tr><td><a href="{% url 'system:summary' %}?ip={{node.ip}}">{{node.ip}}</a></td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <pre>There is no registered IP.</pre>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- field_extractions list -->
+            <div class="col-lg-8 animated fadeInRight">
+                <div class="ibox-title">
+                    <h2>Service status from Windows Services
+                        <span style="float: right;"><i class="fa fa-heartbeat"></i> {{IP}}</span>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <div id='command-result' class="alert alert-success alert-dismissable" style="display: none;">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        dummy messages. command result will be displayed here.
+                    </div>
+                    <table id="service-status" class="table  table-hover table-striped " width="100%">
+                        <thead>
+                        <tr>
+                            <th>State</th>
+                            <th>Service Name</th>
+                            <th>Description</th>
+                            <th>Start Type</th>
+                            <th>Checked</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'uiapp/js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-ui-1.9.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.ui.touch-punch-0.2.2.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery.base64.min.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/jsplumb/jquery.jsPlumb-1.7.2-min.js' %}"></script>
+
+
+<!-- Data Tables -->
+<script src="{% static 'uiapp/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.responsive.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/dataTables/dataTables.tableTools.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/pace/pace.min.js' %}"></script>
+
+
+
+
+<!-- Page-Level Scripts -->
+<script>
+var HOST = 'http://{{ IP }}';
+$(document).ready(function() {
+        /*datatable initialization*/
+        $('#node-list').dataTable({
+            language: {"search": "Search: "},
+        });
+        refresh_service_state_table();
+});
+
+function handleAjaxError( xhr, textStatus, error ) {
+    if ( textStatus === 'timeout' ) {
+        toastr.error( 'The server took too long to send the data.' );
+    }
+    else {
+        toastr.error( 'An error occurred on the server. Please try again in a minute.' );
+    }
+}
+
+function run_command(ajax_url){
+    $.ajax({
+        async: true,
+        url: ajax_url,
+        success: function(json_response)
+        {
+            console.log(json_response);
+            refresh_service_state_table();
+            notify_command_result(json_response);
+        }
+    });
+}
+
+function notify_command_result(json_response){
+    $("#command-result").hide();
+    var msg = '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>'+json_response.message
+    if (json_response.state=="success"){
+        $("#command-result").removeClass('alert-danger');
+        $("#command-result").addClass('alert-success');
+    } else {
+        $("#command-result").removeClass('alert-success');
+        $("#command-result").addClass('alert-danger');
+    }
+    $("#command-result").html(msg);
+    $("#command-result").show(1000);
+}
+
+function refresh_service_state_table(){
+    $('#service-status').dataTable({
+        "ajax": {
+            "url": HOST + '{% url 'system:api-services-status' %}',
+            "error": handleAjaxError
+        },
+        "columns": [
+            {"data": "state"},
+            {"data": "service_name"},
+            {"data": "description"},
+            {"data": "start_type"},
+            {"data": "checked"},
+            {"data": "actions"},
+        ],
+        "order": [[ 1, "asc" ]],
+        language: {"search": "Search: "},
+        bDestroy: true
+    });
+}
+
+</script>
+</body>
+</html>

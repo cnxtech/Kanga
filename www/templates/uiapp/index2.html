@@ -1,0 +1,204 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Kanga - Distributed Realtime Analytics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'uiapp/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- Animate -->
+    <link href="{% static 'uiapp/css/animate.css' %}" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}" />
+    <!-- My CSS -->
+    <link href="{% static 'uiapp/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'uiapp/css/own.style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'uiapp/css\plugins\steps/jquery.steps.css' %}" rel="stylesheet">
+
+
+
+</head>
+<body class="pace-done ">
+
+
+<div id="wrapper">
+    {% include "uiapp/left-side-menu.html" %}
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            {% include "uiapp/top-toolbar.html" %}
+        </div>
+
+        <!-- body -->
+        <div class="wrapper wrapper-content">
+
+            <div class="row">
+
+                <div id="chartContainer" style="height:500px; max-width:700px; margin: 0 auto"></div>
+                <div id="pieChartContainer" style="height:400px; max-width:700px; margin: 0 auto"></div>
+
+
+        </div>
+        <!-- body contents end -->
+        <div class="footer">
+            <div class="pull-right">
+                Kanga
+            </div>
+            <div>
+                <strong>Copyright</strong> Samsung Electronics &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var HOST = "{{ BASE_URL }}"
+</script>
+<script src="{% static 'uiapp/js/constants.js' %}"></script>
+<script src="{% static 'uiapp/externals/jquery/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'uiapp/js/bootstrap.min.js' %}"></script>
+<!-- Custom and plugin javascript -->
+<script src="{% static 'uiapp/js/inspinia.js' %}"></script>
+
+<script src="{% static 'uiapp/externals/pace/pace.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'uiapp/externals/toastr/toastr.min.js' %}"></script>
+<!-- Steps -->
+<script src="{% static 'uiapp/js/plugins/staps/jquery.steps.min.js' %}"></script>
+<script src="{% static 'uiapp/js/plugins/validate/jquery.validate.min.js' %}"></script>
+<script src="{% static 'uiapp/externals/metisMenu/jquery.metisMenu.js' %}"></script>
+
+<!-- chartjs -->
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
+<script src="{% static 'uiapp/externals/devextreme/dx.chartjs.js' %}"></script>
+
+<script>
+$(document).ready(function() {
+
+    var chartDataSource = [
+        {
+            year: 1950, Africa: 227, Americas: 331,
+            Asia: 1436, Europe: 547, Oceania: 12
+        },
+        {
+            year: 1960, Africa: 285, Americas: 416,
+            Asia: 1718, Europe: 605, Oceania: 15
+        },
+        {
+            year: 1970, Africa: 365, Americas: 512,
+            Asia: 2156, Europe: 657, Oceania: 19
+        },
+        {
+            year: 1980, Africa: 478, Americas: 612,
+            Asia: 2644, Europe: 695, Oceania: 22
+        },
+        {
+            year: 1990, Africa: 633, Americas: 720,
+            Asia: 3180, Europe: 722, Oceania: 26
+        },
+        {
+            year: 2000, Africa: 810, Americas: 833,
+            Asia: 3678, Europe: 731, Oceania: 30
+        },
+        {
+            year: 2010, Africa: 1016, Americas: 936,
+            Asia: 4149, Europe: 728, Oceania: 35
+        }];
+
+    $(function () {
+        $("#chartContainer").dxChart({
+            dataSource: chartDataSource,
+            title: {
+                text: 'Continental Population Shift (in millions)'
+            },
+            legend: {
+                horizontalAlignment: 'center',
+                verticalAlignment: 'bottom'
+            },
+            commonSeriesSettings: {
+                argumentField: 'year',
+                type: 'fullStackedArea',
+                label: {
+                    visible: true,
+                    connector: {
+                        visible: true
+                    }
+                }
+            },
+            pathModified: true,
+            tooltip: {
+                enabled: true,
+                percentPrecision: 2,
+                customizeTooltip: function (value) {
+                    return {
+                        text: value.percentText
+                    };
+                }
+            },
+            series: [{
+                name: 'Oceania',
+                valueField: 'Oceania'
+            }, {
+                name: 'Africa',
+                valueField: 'Africa'
+            }, {
+                name: 'Americas',
+                valueField: 'Americas'
+            }, {
+                name: 'Asia',
+                valueField: 'Asia'
+            }, {
+                name: 'Europe',
+                valueField: 'Europe'
+            }]
+        });
+    })
+
+    var pieChartDataSource = [
+        { category: 'Oceania', value: 35 },
+        { category: 'Africa', value: 1016 },
+        { category: 'Americas', value: 936 },
+        { category: 'Asia', value: 4149 },
+        { category: 'Europe', value: 728 }
+    ];
+
+    $(function () {
+        $("#pieChartContainer").dxPieChart({
+            dataSource: pieChartDataSource,
+            series: {
+                argumentField: 'category',
+                valueField: 'value',
+                label: {
+                    visible: true,
+                    connector: {
+                        visible: true
+                    }
+                }
+            },
+            pathModified: true,
+            tooltip: {
+                enabled: true,
+                percentPrecision: 2,
+                customizeTooltip: function (value) {
+                    return {
+                        text: value.percentText
+                    };
+                }
+            },
+            title: {
+                text: 'Continental Population by 2010 (in millions)'
+            },
+            legend: {
+                horizontalAlignment: 'center',
+                verticalAlignment: 'bottom'
+            }
+        });
+    });
+
+
+});
+    </script>
+</html>

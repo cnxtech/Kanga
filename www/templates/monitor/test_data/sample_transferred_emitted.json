@@ -1,0 +1,27 @@
+[
+    {
+    "emitted": 145281,
+    "subscribed": 145281,
+    "id": "flowchart_passthrough_from_file_191"
+    },
+    {
+    "emitted": 145240,
+    "subscribed": 145260,
+    "id": "flowchart_cnc_tool_failure_924"
+    },
+    {
+    "emitted": 0,
+    "id": "flowchart_save_to_file_650",
+    "subscribed": 100
+    },
+    {
+    "emitted": 0,
+    "id": "flowchart_save_to_file_956",
+    "subscribed": 145260
+    },
+    {
+    "emitted": 100,
+    "id": "flowchart_where_clause_244",
+    "subscribed": 145240
+    }
+]

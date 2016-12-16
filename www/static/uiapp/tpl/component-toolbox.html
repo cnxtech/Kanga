@@ -1,0 +1,226 @@
+<div class="theme-config">
+    <div class="theme-config-box">
+        <div class="spin-icon">
+            <i class="fa fa-rocket"></i>
+        </div>
+        <div class="skin-setttings">
+            <div class="title">Processor Toolbox</div>
+            <div>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Input Stream</a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li  class="toolbox-component" id="component-log"><a href="#">Passthrough</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Transformation</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked component-list">
+                                    <li class="toolbox-component" id="component-hive"><a href="#">Hive</a></li>
+                                    <li class="toolbox-component" id="component-hadoop"><a href="#">Hadoop</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Filter</a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked component-list">
+                                    <li><a href="#">Where Clause</a></li>
+                                    <li><a href="#">Last Tick</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Aggregation</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked component-list">
+                                    <li><a href="#">Average</a></li>
+                                    <li><a href="#">Sum</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Join, Merge & Sort</a>
+                            </h4>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked component-list">
+                                    <li><a href="#">Join by Time</a></li>
+                                    <li><a href="#">Join</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    // Config box
+
+    // SKIN Select
+    $('.spin-icon').click(function () {
+        $(".theme-config-box").toggleClass("show");
+    });
+
+
+    //  BEGIN SYSTEM COMPONENT
+    var processors_json_data ="{}";
+    var PROCESSORS_NAME_CATEGORY_MAP = {};
+    var processors_json_data_macro ="{}";
+    var SystemComponent = {}
+    SystemComponent.load = function(){
+        $.ajaxSetup({ cache: false });
+        $.getJSON( HOST+"/workspace/streaming-query/toolbox", function( data ) {
+            processors_json_data = data;
+
+            $("#accordion").html("");
+            var items = [];
+            console.log("data length: "+data.items.length);
+            var n = data.items.length;
+            var isCollapsed = "in";
+            for(var i=0; i<n; i++){
+                var cat = data.items[i];
+                //console.log("Category Label: "+cat.label);
+                var subtpl2 = "";
+                for(var j=0; j<cat.processors.length; j++) {
+                    var processors = cat.processors[j];
+                    var nodeType = getNodeAttribute(cat.category,processors.icon);
+                    //console.log("Processor "+(j+1)+": "+processors.name);
+                    subtpl2 += drawCircle(subtpl2, nodeType, processors);
+                    //subtpl2 += "<li class=\"toolbox-component\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"'><a href=\"#\">"+processors.name+"</a></li>";
+                    PROCESSORS_NAME_CATEGORY_MAP[processors.name] = cat.category;
+                }
+                if (i>0) isCollapsed = "";
+                var subtpl1 = "<div id='collapse-{0}' class=\"panel-collapse collapse "+isCollapsed+"\"><div class=\"panel-body\"><ul class=\"nav nav-pills nav-stacked\">{1}</ul></div>";
+                subtpl1 = String.format(subtpl1, cat.category, subtpl2);
+
+                var tpl = "<div class=\"panel panel-default\" style=\"width:200px\"> <div class=\"panel-heading\"><h5 class=\"panel-title\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href='#collapse-{0}'>{1}</a></h5></div>{2}</div>";
+                subtpl1 = String.format(subtpl1, subtpl2);
+                tpl = String.format(tpl, cat.category, cat.label, subtpl1);
+                //console.log("Results: "+tpl);
+                $("#accordion").append(tpl);
+            }
+
+            $(".toolbox-component").draggable({
+                helper: 'clone',
+                containment: 'frame',
+                //When first dragged
+                stop: function (ev, ui) {
+
+                }
+            });
+
+            if(getURLParameterByName("wfid")!=null){
+                var queryName = getURLParameterByName("wfid");
+                console.log("Loading Query Name:"+queryName);
+                componentProvider.loadWorkflow(queryName, DocController);
+            }else{
+                DocController.flagAsNewDocument();
+            }
+
+        });
+    }
+
+    function getNodeAttribute(category,icon){
+        for (var k =0; k < componentProvider.nodemap.length; k++) {
+            if (componentProvider.nodemap[k].category == category) {
+                ret = componentProvider.nodemap[k];
+                if(icon=="dummy_input"){
+                    ret =  {
+                        types: ret.types,
+                        class: ret.class,
+                        output: true,
+                        input: false
+                    };
+                }
+                else if(icon=="dummy_output"){
+                    ret =  {
+                        types: ret.types,
+                        class: ret.class,
+                        output: false,
+                        input: true
+                    };
+                }
+                else{
+                    ret =  {
+                        types: ret.types,
+                        class: ret.class,
+                        output: ret.output,
+                        input: ret.input
+                    };
+                }
+            }
+        }
+        return ret;
+    }
+
+    function drawCircle(subtpl,nodeType,processors){
+        if(nodeType.input && nodeType.output){
+            subtpl = "<li class=\"toolbox-component\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"' style=\"width:150px\"><svg style=\"position:absolute;left:-5px;top:10px;z-index:5;\" width=\"18\" height=\"18\" pointer-events=\"all\" position=\"absolute\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\"><circle cx=\"9\" cy=\"9\" r=\"7\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\" fill=\"#ffffff\" stroke=\"#1cc09f\" stroke-width=\"2\"></circle></svg><ul class=\"nav nav-pills nav-stacked\"><li class="+nodeType.class+" style=\"white-space: nowrap;text-overflow: ellipsis;overflow: hidden;\"><span class=\"processor-snippet\" href=\"#\">"+processors.name+"</span></li></ul><svg style=\"position:absolute;left:138px;top:10px;\" width=\"18\" height=\"18\" pointer-events=\"all\" position=\"absolute\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\"><circle cx=\"9\" cy=\"9\" r=\"7\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\" fill=\"#ffffff\" stroke=\"#1cc09f\" stroke-width=\"2\"></circle></svg></li>";
+        }
+        else if(nodeType.input){
+            subtpl = "<li class=\"toolbox-component\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"' style=\"width:150px\"><svg style=\"position:absolute;left:-5px;top:10px;z-index:5;\" width=\"18\" height=\"18\" pointer-events=\"all\" position=\"absolute\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\"><circle cx=\"9\" cy=\"9\" r=\"7\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\" fill=\"#ffffff\" stroke=\"#1cc09f\" stroke-width=\"2\"></circle></svg><ul class=\"nav nav-pills nav-stacked\"><li class="+nodeType.class+" style=\"white-space: nowrap;text-overflow: ellipsis;overflow: hidden;\"><span class=\"processor-snippet\" href=\"#\">"+processors.name+"</span></li></ul></li>";
+        }
+        else if(nodeType.output){
+            subtpl = "<li class=\"toolbox-component\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"' style=\"width:150px\"><ul class=\"nav nav-pills nav-stacked\"><li class="+nodeType.class+" style=\"white-space: nowrap;text-overflow: ellipsis;overflow: hidden;\"><span class=\"processor-snippet\" href=\"#\">"+processors.name+"</span></li></ul><svg style=\"position:absolute;left:138px;top:10px;z-index:5;\" width=\"18\" height=\"18\" pointer-events=\"all\" position=\"absolute\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\"><circle cx=\"9\" cy=\"9\" r=\"7\" version=\"1.1\" xmlns=\"http://www.w3.org/1999/xhtml\" fill=\"#ffffff\" stroke=\"#1cc09f\" stroke-width=\"2\"></circle></svg></li>";
+        }
+        else{
+            subtpl = "<li class=\"toolbox-component\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"' style=\"width:150px\"><ul class=\"nav nav-pills nav-stacked\"><li class="+nodeType.class+" style=\"white-space: nowrap;text-overflow: ellipsis;overflow: hidden;\"><span class=\"processor-snippet\" href=\"#\">"+processors.name+"</span></li></ul></li>";
+            //subtpl = "<li class=\"toolbox-component "+nodeType.class+"\" id=\"component-"+processors.name+"\" icon='"+processors.icon+"' style=\"width:150px\"><span class=\"processor-snippet\" href=\"#\">"+processors.name+"</span></li>";
+        }
+        return subtpl;
+    }
+    SystemComponent.getArgumentsDefinition = function (processor_name) {
+        var data  =  processors_json_data ;
+        var items = [];
+        //console.log("Get '"+processor_name+"' argument");
+        //console.log("data length: "+data.items.length);
+        var n = data.items.length;
+        for(var i=0; i<n; i++){
+            var cat = data.items[i];
+            //console.log("Category Label: "+cat.label);
+            for(var j=0; j<cat.processors.length; j++) {
+                var processors = cat.processors[j];
+                //console.log("Processor "+(j+1)+": "+processors.name);
+                if(processor_name === processors.name)
+                    return JSON.stringify(processors.args);
+            }
+        }
+        return null;
+    }
+    // END SYSTEM COMPONENT
+    SystemComponent.load();
+</script>
